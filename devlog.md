@@ -62,7 +62,6 @@ For now, though, this is a possible _merge_ of ideas.
   * Some recurring curse/modifier that _swaps places_ (so the inside player is now outside and vice versa)?
   * Roguelike unlocks / progression / heavily randomized map generation or setups?
 
-
 So ...
 
 ## What are my personal challenges?
@@ -76,6 +75,27 @@ The second one is an improvement on working with Custom Resources in Godot. I've
 Similarly, I still tempt to hardcode references to module scripts, making it impossible to actually reuse them in "any other location" or "any other combo of components". So let's try to make these tiny tweaks to my game architecture (which is already quite good, I think).
 
 The third and final one has to do with graphics. Because of my 15+ years experience, my graphics always look _fine_. But never _great_ (or better!). And I feel stagnant, probably because I don't really do animations or shaders or any more fancy and complicated effects. For this game, I want to see if I can do more with lighting, and make the water look really nice, and all that stuff.
+
+## Step 1: Start with rowing
+
+With so much work to do, and so many unknowns, it's easy to get overwhelmed. As such, I decided to latch onto the simplest part to execute and _make specific_, just to get something going.
+
+That turned out to be the rowing idea. Even though I expected this to _not_ be the final game, the first thing I created was ...
+
+* The left/right paddle motion for a boat (or canoe I guess)
+* A random river/track generator.
+* Randomly spawning elements to convert, areas with a current, etcetera.
+* And finishing that core game loop.
+
+This forced me to make specific scripts and implementations for at least half the things I'd also need for the other ideas. The rowing motion, obviously. But also, for example, the `ElementSpawner`. In this simple "rowing race" the spawner is linked to a function that generates random positions on the track. In the other modes, that same general module would juts be linked to a _different_ function that spawns the elements in some slightly different way.
+
+This took about a day, but it allowed me to make progress and built parts of the general skeleton. It also just ended up being a fun game and, if all else fails, I'll just submit this one :p
+
+{{% remark %}}
+I'll see if I can make a tutorial about how I did the river track. It's a rather simple algorithm that creates organic, non-problematic rivers. With the proper boundaries around it, so you can't go out of bounds, a seamless water shader over it, etcetera. But it uses a lot of tricks and cool ideas that I think others might find useful too!
+{{% /remark %}}
+
+
 
 ## Step 1: Make what we'll surely need
 
@@ -108,24 +128,3 @@ We can also create a slightly different prototype with just the rowing.
 
 
 
-@IDEA: 
-* All garbage is just that: garbage. That's how you know it can be picked up and hasn't transformed yet. (Anything else has been the result of transformation.)
-* What it _turns into_ depends on which area you're in.
-  * OPTION A: The map is divided into changing areas, and the area you're in when you PICK IT UP matters.
-  * OPTION B: The map is divided into changing areas, and the area you're in when you DROP IT matters.
-  * OPTION C: The inside palace is divided into areas. The area your other player is in when you PICK IT UP/DROP IT determines what comes out of it!
-    * This basically requires the palace to be built from grid (tilemap, wave function collapse, whatever).
-    * Because then we can use a simple flood fill algorithm to create all areas for all possible end products.
-
-@IDEA: Players/Monsters/Elements.
-* They all have a "InsideOutsideModule" (need better name)
-* It simply switches Resources based on where this object is. (InsideRuleset or OutsideRuleset)
-* And the properties of that determine how it should function.
-* (There could also be the TransitionRuleSet which triggers any custom logic for when the transition happens.)
-
-@IDEA: MonsterSpawner.
-* Each wave simply has a strength (say 10), and each monster has an individual value (say 2)
-* It _randomly selects_ from monsters that are available, until it gets a _total value_ equal to _strength_. (With slight margin for error, otherwise we remove the last added option and pick the "friendlier version" of the wave.)
-  * Also immediately add debug radius for the monsters for when they'll pick up Elements to walk towards => I've learned how useful that is.
-
-@IDEA: _Currents_ in the water could push and pull monsters in certain directions. (Maybe your _boat_ creates those currents?)
