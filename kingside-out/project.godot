@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="Kingside Out"
-run/main_scene="res://game_loop/main/main.tscn"
+run/main_scene="res://game_loop/main_river/main_river.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
+Global="*res://game_loop/globals/Global.tscn"
 GInput="*res://input/GInput.gd"
 
 [display]
@@ -27,6 +28,7 @@ window/size/viewport_height=720
 [global_group]
 
 Players=""
+Vehicles=""
 
 [rendering]
 

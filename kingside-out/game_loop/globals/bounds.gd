@@ -1,17 +1,33 @@
 class_name Bounds
 
-var min := 0.0
-var max := 1.0
+var start := 0.0
+var end := 1.0
+
+var epsilon := 0.00003
 
 func _init(a:float, b:float):
-	min = a
-	max = b
+	start = a
+	end = b
+
+func clone() -> Bounds:
+	return Bounds.new(start, end)
 
 func clamp_value(val:float) -> float:
-	return clamp(val, min, max)
+	return clamp(val, start, end)
 
 func rand_float() -> float:
-	return randf_range(min, max)
+	return randf_range(start, end)
 
 func rand_int() -> int:
-	return floor(randf_range(min,max+0.999))
+	return floor(randf_range(start, end+0.999))
+
+func is_at_extreme(val:float) -> bool:
+	return val <= start or val >= end
+
+func scale(s:float) -> Bounds:
+	start *= s
+	end *= s
+	return self
+
+func interpolate(factor:float) -> float:
+	return lerp(start, end, factor)

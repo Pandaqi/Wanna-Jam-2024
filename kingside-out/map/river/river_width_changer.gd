@@ -16,7 +16,7 @@ func get_value() -> float:
 
 func change_value(dv:float) -> float:
 	value = bounds.clamp_value(value + dv)
-	if value <= bounds.min or value >= bounds.max:
+	if bounds.is_at_extreme(value):
 		flip_dir()
 	return value
 

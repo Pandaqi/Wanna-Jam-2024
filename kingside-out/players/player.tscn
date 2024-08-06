@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://bmwlybd45emhm"]
+
+[ext_resource type="Script" path="res://players/player.gd" id="1_x4sn3"]
+[ext_resource type="Script" path="res://players/modules/input.gd" id="2_ig306"]
+[ext_resource type="Script" path="res://players/modules/vehicle_manager.gd" id="3_wwbob"]
+[ext_resource type="Script" path="res://players/modules/element_grabber.gd" id="4_i8w0q"]
+[ext_resource type="Script" path="res://players/modules/element_dropper.gd" id="5_qhvmn"]
+[ext_resource type="Script" path="res://players/modules/element_converter.gd" id="5_ymhcn"]
+[ext_resource type="Script" path="res://players/modules/river_tracker.gd" id="7_rf7bx"]
+[ext_resource type="Resource" uid="uid://bdqh3uxn868mc" path="res://map/river/river_map_data.tres" id="8_ktw5b"]
+
+[node name="Player" type="Node2D" groups=["Players"]]
+script = ExtResource("1_x4sn3")
+
+[node name="Input" type="Node" parent="."]
+script = ExtResource("2_ig306")
+
+[node name="VehicleManager" type="Node" parent="."]
+script = ExtResource("3_wwbob")
+
+[node name="ElementGrabber" type="Node" parent="."]
+script = ExtResource("4_i8w0q")
+
+[node name="ElementConverter" type="Node2D" parent="."]
+script = ExtResource("5_ymhcn")
+
+[node name="Timer" type="Timer" parent="ElementConverter"]
+one_shot = true
+
+[node name="ElementDropper" type="Node2D" parent="."]
+script = ExtResource("5_qhvmn")
+
+[node name="RiverTracker" type="Node2D" parent="."]
+script = ExtResource("7_rf7bx")
+map_data = ExtResource("8_ktw5b")
+
+[node name="DebugLabel" type="Label" parent="RiverTracker"]
+offset_left = -19.0
+offset_top = -19.0
+offset_right = 21.0
+offset_bottom = 15.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "-1"
+horizontal_alignment = 1
+vertical_alignment = 1

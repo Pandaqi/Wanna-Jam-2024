@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7ey8wx7l6yj0"]
+
+[ext_resource type="Script" path="res://map/canoes/canoe.gd" id="1_6xiqm"]
+[ext_resource type="Texture2D" uid="uid://db33gmfpidewc" path="res://icon.svg" id="2_b7344"]
+[ext_resource type="Script" path="res://players/vehicles/modules/mover.gd" id="3_7nwdr"]
+[ext_resource type="Script" path="res://players/modules/feeler.gd" id="3_cl8fs"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r0w00"]
+friction = 0.0
+bounce = 0.9
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3osg8"]
+size = Vector2(142, 80)
+
+[node name="Canoe" type="RigidBody2D" groups=["Vehicles"]]
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_r0w00")
+gravity_scale = 0.0
+linear_damp = 1.0
+angular_damp = 1.0
+script = ExtResource("1_6xiqm")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-64, 4, -64, -4, -4, -32, 4, -32, 64, -4, 64, 4, 4, 32, -4, 32)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(5, 0)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_b7344")
+
+[node name="Mover" type="Node2D" parent="."]
+script = ExtResource("3_7nwdr")
+
+[node name="Feeler" type="Node2D" parent="."]
+script = ExtResource("3_cl8fs")
+
+[node name="Area2D" type="Area2D" parent="Feeler"]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Feeler/Area2D"]
+shape = SubResource("RectangleShape2D_3osg8")
+
+[connection signal="body_entered" from="Feeler/Area2D" to="Feeler" method="_on_area_2d_body_entered"]

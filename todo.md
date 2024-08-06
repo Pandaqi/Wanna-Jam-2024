@@ -11,31 +11,18 @@
 
 ## Rowing Game
 
-* Rename scene to `main_river.tscn` or something.
-* Create spawning function for stuff _on_ the track, and stuff on the _edge_
-  * Use it to place random elements to pick up on the track.
-  * Also create simple areas with a current. (Check current vector against track vector. Make sure it never goes back; or if it does, it's a much smaller range than the width at that point.)
-  * Place decorations on the _edge_ to make it look much better. (Background should probably be lighter and also textured a bit.)
-  * Perhaps place rocks or stuff on the track, using the same idea as currents to ensure they do not block the _entire path_. (Or maybe there are _moving/more dynamic_ obstacles on the river => re-use the MonsterSpawner for this!)
 * Test different **rowing mechanics**.
   * Only on press (as opposed to continuous).
-  * Rowing motions need time to recharge. Pressing the button _perfectly_ after recharge has some bonus; pressing it earlier some penalty or does nothing.
-  * If you press both at the same time, go _straight forward_. (Now it does nothing because both forces cancel each other.)
-* Create ElementSpawner
-  * It can just take a module/resource that takes care of all those `query_position` calls and such.
-  * (The bounds and stuff are read from config, which is read from the Global so I can just swap it out depending on game mode chosen.) (Global also doubles as signal bus and bg music and stuff.)
-* Create ElementConverter + ElementGrabber ( + ElementDropper?)
-  * To pick them up, convert, then spit back out again.
-  * This is all based on PHYSICS (areas/body triggers)
-* Camera2D 
-  * Move to keep all players in view
-  * A min-width/min-height (to prevent zooming in _too much_)
-  * If this brings your zoom level too far back, give the player in last place a speed boost forward?
-* Test multiple boats. See if it fits, if they can have fun interactions, etcetera.
-* Finish
-  * Display finish. (Just a simple rectangle at the final edge, with a shader that creates blocks.) (Though perhaps we place it a bit _earlier_ because we want some extra space for the boats to go afterwards; and then we use a final collider to close off the track at start/finish)
-  * Track time and finishers.
-  * Allow going to game over and displaying the ranking.
+    * This is hard on a controller, though. So we'll need a "recharge" mechanic anyway, to differentiate between when the movement vector should be considered for a new rowing motion
+  * Rowing motions need time to recharge. Pressing the button _perfectly_ after recharge has some bonus; pressing it earlier has some penalty or does nothing.
+  * If you press both at (roughly?) the same time, go _straight forward_. (Now it does nothing because both forces cancel each other.)
+* Allow going to game over and displaying the ranking.
+  * All info (such as finish times) is in StateData shared resource
+
+
+@IDEA! "Inside Out" -> if you hit stones often/hard enough, they break apart and something else comes out of it. (An element that is already converted to something.)
+
+@IDEA! Break the segments into "areas"/sequences of the same type. Then, whenever your element conversion is finished, the type that comes out is determined by the area you're currently in. (And when it comes out, it "blasts away from you" just a little bit, so you _can_ change course to grab it yourself if you want
 
 
 ## General
@@ -61,8 +48,12 @@
 
 
 
+## Polishing
 
-
+* BOOST: show on the canoe (of last player) that they're being boosted. (Also destroy stuff in their immediate surroundings to make sure they get unstuck?)
+* SPAWNING: Maybe add some _moving/more dynamic_ obstacles on the river => re-use the MonsterSpawner for this!
+* Probably want a wider/longer river on higher player count.
+* Background should probably be lighter and also textured a bit. => Place some gradient/texture DECORATIONS as well (much larger than current flowers, still at the edge)
 
 @IDEA: 
 * All garbage is just that: garbage. That's how you know it can be picked up and hasn't transformed yet. (Anything else has been the result of transformation.)

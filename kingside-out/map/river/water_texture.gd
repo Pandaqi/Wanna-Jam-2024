@@ -3,17 +3,19 @@ extends Node2D
 var polygons : Array[PackedVector2Array] = []
 var polygon_uvs : Array[PackedVector2Array] = []
 
-func update(bounds:Rect2, bank_left:Array[Vector2], bank_right:Array[Vector2]) -> void:
+func update(gen:RiverGenerator) -> void:
 	polygons = []
-	for i in range(1, bank_left.size()):
-		var polygon : PackedVector2Array = [bank_left[i-1], bank_left[i], bank_right[i], bank_right[i-1]]
+	
+	for i in range(1, gen.count()):
+		var polygon : PackedVector2Array = [gen.river_bank_left[i-1], gen.river_bank_left[i], gen.river_bank_right[i], gen.river_bank_right[i-1]]
 		var uvs : PackedVector2Array = []
 		for point in polygon:
-			var point_to_uv := (point - bounds.position) / bounds.size
+			var point_to_uv := (point - gen.bounds.position) / gen.bounds.size
 			uvs.append(point_to_uv)
 		
 		polygons.append(polygon)
 		polygon_uvs.append(uvs)
+	
 	queue_redraw()
 
 func _draw() -> void:

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Config" load_steps=2 format=3 uid="uid://dwx4ywn8mxuvb"]
+
+[ext_resource type="Script" path="res://game_loop/globals/config.gd" id="1_84xtn"]
+
+[resource]
+script = ExtResource("1_84xtn")
+canoe_size = Vector2(128, 64)
+canoe_mass = 100.0
+map_size_scalar = 12.0
+river_max_tries_before_give_up = 20
+river_max_rotation_per_step = 0.471239
+target_river_length = 4.0
+river_width_def = 0.5
+water_current_backwards_strength_modifier = 0.33

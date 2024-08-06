@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://ccbukfd4biu58"]
+
+[ext_resource type="Script" path="res://map/obstacles/rocks/rocks.gd" id="1_33ko1"]
+[ext_resource type="Texture2D" uid="uid://db33gmfpidewc" path="res://icon.svg" id="1_gfy78"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a4cad"]
+
+[node name="Rocks" type="StaticBody2D"]
+script = ExtResource("1_33ko1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_a4cad")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_gfy78")

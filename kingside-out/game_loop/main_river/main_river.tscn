@@ -1,0 +1,89 @@
+[gd_scene load_steps=22 format=3 uid="uid://brf6bx615ewe5"]
+
+[ext_resource type="Script" path="res://map/river/map_river.gd" id="1_0gj85"]
+[ext_resource type="Script" path="res://game_loop/main_river/main_river.gd" id="1_7xv6r"]
+[ext_resource type="Shader" path="res://map/river/water_texture.gdshader" id="2_5kxvg"]
+[ext_resource type="Script" path="res://game_loop/main_river/state/state.gd" id="2_252xb"]
+[ext_resource type="Script" path="res://map/river/water_texture.gd" id="2_ecp8i"]
+[ext_resource type="Script" path="res://map/river/camera_river.gd" id="2_i5rqy"]
+[ext_resource type="Resource" uid="uid://bdqh3uxn868mc" path="res://map/river/river_map_data.tres" id="2_ydrg4"]
+[ext_resource type="Resource" uid="uid://cojv6ts84vrde" path="res://game_loop/main_river/state/state_data.tres" id="3_d2ljn"]
+[ext_resource type="PackedScene" uid="uid://bfgn5xl8gccjo" path="res://map/river/finish/finish_line.tscn" id="4_553in"]
+[ext_resource type="Script" path="res://players/players.gd" id="5_1wsuu"]
+[ext_resource type="Script" path="res://map/elements/element_spawner.gd" id="6_s0huj"]
+[ext_resource type="Resource" uid="uid://bv8cc8g4sb15k" path="res://map/river/river_spawner.tres" id="7_7vl82"]
+[ext_resource type="PackedScene" uid="uid://da3hrr4wapyr0" path="res://map/decorations/decoration.tscn" id="7_bjs7v"]
+[ext_resource type="Resource" uid="uid://cudbqplakte1q" path="res://players/players_data.tres" id="11_2y2kc"]
+[ext_resource type="PackedScene" uid="uid://d2l82ygw6mow5" path="res://map/elements/element.tscn" id="11_jpc6u"]
+[ext_resource type="PackedScene" uid="uid://ccbukfd4biu58" path="res://map/obstacles/rocks/rocks.tscn" id="12_53lxc"]
+[ext_resource type="PackedScene" uid="uid://c7ey8wx7l6yj0" path="res://players/vehicles/canoe.tscn" id="12_88jwu"]
+[ext_resource type="PackedScene" uid="uid://bmwlybd45emhm" path="res://players/player.tscn" id="13_t4t1q"]
+[ext_resource type="PackedScene" uid="uid://cjm0p73fsjxkr" path="res://map/obstacles/water_current/water_current.tscn" id="13_war4g"]
+[ext_resource type="Resource" uid="uid://r8i7me8uw0kx" path="res://map/elements/element_garbage.tres" id="15_vt824"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kgwc5"]
+shader = ExtResource("2_5kxvg")
+shader_parameter/R = Vector2(0.8, 0.6)
+shader_parameter/scale = 4.0
+shader_parameter/speed = 1.0
+shader_parameter/direction = Vector3(1, 1, 0)
+shader_parameter/distortion = 0.5
+shader_parameter/layers = 2.0
+shader_parameter/shades = 3.0
+shader_parameter/steps = 3
+shader_parameter/tint = Color(0.4116, 0.970527, 0.98, 1)
+shader_parameter/highlight = Color(0.71, 1, 0.9855, 1)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_7xv6r")
+
+[node name="State" type="Node" parent="."]
+script = ExtResource("2_252xb")
+state_data = ExtResource("3_d2ljn")
+players_data = ExtResource("11_2y2kc")
+
+[node name="BG" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="BG"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0.290196, 0.027451, 1)
+
+[node name="Map" type="Node2D" parent="."]
+script = ExtResource("1_0gj85")
+map_data = ExtResource("2_ydrg4")
+finish_line_scene = ExtResource("4_553in")
+
+[node name="Bodies" type="Node2D" parent="Map"]
+
+[node name="WaterTexture" type="Node2D" parent="Map"]
+material = SubResource("ShaderMaterial_kgwc5")
+script = ExtResource("2_ecp8i")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_i5rqy")
+map_data = ExtResource("2_ydrg4")
+players_data = ExtResource("11_2y2kc")
+mode = null
+
+[node name="ElementSpawner" type="Node2D" parent="."]
+script = ExtResource("6_s0huj")
+spawner = ExtResource("7_7vl82")
+decoration_scene = ExtResource("7_bjs7v")
+element_scene = ExtResource("11_jpc6u")
+rocks_scene = ExtResource("12_53lxc")
+water_current_scene = ExtResource("13_war4g")
+element_garbage = ExtResource("15_vt824")
+
+[node name="Players" type="Node2D" parent="."]
+script = ExtResource("5_1wsuu")
+players_data = ExtResource("11_2y2kc")
+canoe_scene = ExtResource("12_88jwu")
+player_scene = ExtResource("13_t4t1q")
+map_data = ExtResource("2_ydrg4")
+
+[node name="GameOver" type="CanvasLayer" parent="."]

@@ -1,28 +1,33 @@
 class_name Vehicle extends RigidBody2D
 
-# how much of the impulse should be for pushing the canoe forward
-# (the other part is for rotating us to the side)
-var percentage_forward := 0.25
-var power := 1.0
 
-@export var inputs : Array[ModuleInput] = []
+var has_finished := false
 
-func _physics_process(dt:float) -> void:
-	poll_inputs()
+@export var connected_players : Array[Player] = []
 
-func poll_inputs() -> void:
-	for input in inputs:
-		if input.is_left(): row(-1)
-		if input.is_right(): row(+1)
+@onready var feeler : ModuleFeeler = $Feeler
+@onready var mover : ModuleVehicleMover = $Mover
 
-func row(dir:int) -> void:
-	var forward_vec := Vector2.RIGHT.rotated( get_rotation() )
-	var canoe_size := Vector2(20, 10)
-	var final_power := power * mass
+signal finished()
+
+func _ready():
+	mass = Global.config.canoe_mass
+
+func add_driver(p:Player) -> void:
+	connected_players.append(p)
+
+func remove_driver(p:Player) -> void:
+	connected_players.erase(p)
+
+func get_bounds() -> Rect2:
+	var max_size : float = max(Global.config.canoe_size.x, Global.config.canoe_size.y)
+	var pos := global_position
+	return Rect2(pos.x - 0.5*max_size, pos.y - 0.5*max_size, max_size, max_size)
 	
-	var impulse_rot : float = lerp(0.0, 0.5*PI*dir, 1.0 - percentage_forward)
-	var impulse_vec := forward_vec.rotated(impulse_rot) * final_power
+func finish():
+	has_finished = true
+	emit_signal("finished")	
+
+func is_finished() -> bool:
+	return has_finished
 	
-	# = offset from body ORIGIN in GLOBAL coordinates
-	var impulse_pos := forward_vec * 0.5 * canoe_size.x
-	apply_impulse(impulse_vec, impulse_pos)

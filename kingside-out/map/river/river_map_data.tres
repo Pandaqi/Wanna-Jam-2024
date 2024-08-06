@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="RiverMapData" load_steps=2 format=3 uid="uid://bdqh3uxn868mc"]
+
+[ext_resource type="Script" path="res://map/river/river_map_data.gd" id="1_ivdpp"]
+
+[resource]
+script = ExtResource("1_ivdpp")
