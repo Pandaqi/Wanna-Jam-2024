@@ -12,7 +12,7 @@ func activate() -> void:
 
 func connect_to(v:Vehicle) -> void:
 	connected_vehicle = v
-	connected_vehicle.add_driver(get_parent())
+	connected_vehicle.add_driver(get_parent(), Config.CanoeControlSide.BOTH)
 	connected_vehicle.finished.connect(on_finished)
 	connected.emit(v)
 

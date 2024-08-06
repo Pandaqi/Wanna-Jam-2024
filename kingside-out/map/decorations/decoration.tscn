@@ -1,11 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://da3hrr4wapyr0"]
 
 [ext_resource type="Script" path="res://map/decorations/decoration.gd" id="1_ec3n3"]
-[ext_resource type="Texture2D" uid="uid://db33gmfpidewc" path="res://icon.svg" id="1_ysya3"]
+[ext_resource type="PackedScene" uid="uid://v3duygxcvqa4" path="res://game_loop/main_river/misc.tscn" id="2_rhpri"]
 
 [node name="Decoration" type="Node2D"]
 script = ExtResource("1_ec3n3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.45, 1, 0.770833, 1)
-texture = ExtResource("1_ysya3")
+[node name="Sprite2D" parent="." instance=ExtResource("2_rhpri")]

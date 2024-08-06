@@ -1,9 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://ccbukfd4biu58"]
+[gd_scene load_steps=10 format=3 uid="uid://ccbukfd4biu58"]
 
 [ext_resource type="Script" path="res://map/obstacles/rocks/rocks.gd" id="1_33ko1"]
 [ext_resource type="Texture2D" uid="uid://db33gmfpidewc" path="res://icon.svg" id="1_gfy78"]
+[ext_resource type="Shader" path="res://map/general/water_ripples.gdshader" id="2_j03as"]
+[ext_resource type="PackedScene" uid="uid://v3duygxcvqa4" path="res://game_loop/main_river/misc.tscn" id="2_nvxmj"]
+[ext_resource type="Script" path="res://players/modules/health.gd" id="3_ttm2f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a4cad"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_h8es7"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_p06as"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_h8es7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nr3cl"]
+shader = ExtResource("2_j03as")
+shader_parameter/speed = 3.0
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_p06as")
 
 [node name="Rocks" type="StaticBody2D"]
 script = ExtResource("1_33ko1")
@@ -11,5 +26,15 @@ script = ExtResource("1_33ko1")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_a4cad")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="WaterRipples" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="WaterRipples"]
+material = SubResource("ShaderMaterial_nr3cl")
+scale = Vector2(6, 6)
 texture = ExtResource("1_gfy78")
+
+[node name="Sprite2D" parent="." instance=ExtResource("2_nvxmj")]
+frame = 2
+
+[node name="Health" type="Node2D" parent="."]
+script = ExtResource("3_ttm2f")

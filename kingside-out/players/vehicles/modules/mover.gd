@@ -1,27 +1,30 @@
 class_name ModuleVehicleMover extends Node2D
 
-# how much of the impulse should be for pushing the canoe forward
-# (the other part is for rotating us to the side)
-var percentage_forward := 0.25
-var power := 5.0
-
 @onready var entity : Vehicle = get_parent()
 
-func _physics_process(_dt:float) -> void:
-	poll_inputs()
+@onready var paddle_left : Paddle = $PaddleLeft
+@onready var paddle_right : Paddle = $PaddleRight
 
-func poll_inputs() -> void:
-	for p in entity.connected_players:
-		if p.input.is_left(): row(-1)
-		if p.input.is_right(): row(+1)
+func _ready():
+	entity.driver_added.connect(on_driver_added)
+	entity.driver_removed.connect(on_driver_removed)
 
-func row(dir:int) -> void:
-	var forward_vec := Vector2.RIGHT.rotated( entity.get_rotation() )
-	var final_power := power * entity.mass
+func on_driver_added(p:Player, side:Config.CanoeControlSide) -> void:
+	if side == Config.CanoeControlSide.LEFT or side == Config.CanoeControlSide.BOTH:
+		paddle_left.add_player(p)
 	
-	var impulse_rot : float = lerp(0.0, 0.5*PI*dir, 1.0 - percentage_forward)
-	var impulse_vec := forward_vec.rotated(impulse_rot) * final_power
-	
-	# = offset from body ORIGIN in GLOBAL coordinates
-	var impulse_pos := forward_vec * 0.5 * Global.config.canoe_size.x
-	entity.apply_impulse(impulse_vec, impulse_pos)
+	if side == Config.CanoeControlSide.RIGHT or side == Config.CanoeControlSide.BOTH:
+		paddle_right.add_player(p)
+
+func on_driver_removed(p:Player):
+	paddle_left.remove_player(p)
+	paddle_right.remove_player(p)
+
+func get_forward_vector() -> Vector2:
+	return Vector2.RIGHT.rotated( entity.get_rotation() )
+
+func get_mass() -> float:
+	return entity.mass
+
+func apply_impulse(vec:Vector2, pos:Vector2) -> void:
+	entity.apply_impulse(vec, pos)

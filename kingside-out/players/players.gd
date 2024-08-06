@@ -31,5 +31,6 @@ func place_canoes():
 		var c = canoe_scene.instantiate()
 		c.set_position(positions[i])
 		add_child(c)
+		c.activate()
 		
 		players_data.players[i].vehicle_manager.connect_to(c)

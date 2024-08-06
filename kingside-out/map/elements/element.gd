@@ -7,4 +7,4 @@ func set_type(ed:ElementData):
 	# @TODO: actually visualize this and stuff
 
 func needs_processing() -> bool:
-	return data.unprocessed
+	return not data.processed

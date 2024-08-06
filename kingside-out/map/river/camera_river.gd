@@ -20,7 +20,6 @@ func _process(dt:float) -> void:
 	if not bounds: return
 	
 	var target_position := bounds.get_center()
-	
 	var size_bounds := Global.config.camera_size_bounds.clone().scale( Global.config.get_map_base_size() )
 	
 	var vp_size := get_viewport_rect().size - 2*camera_edge_margin
@@ -56,7 +55,7 @@ func get_bounds() -> Rect2:
 		
 		# make sure the first player can "look ahead"
 		var first_player : Player = players_data.get_first_place()
-		var pos_ahead := map_data.get_position_on_river_at(first_player.river_tracker.get_index_on_river_float()+ Global.config.camera_num_segments_look_ahead)
+		var pos_ahead := map_data.get_position_on_river_at(first_player.river_tracker.get_index_on_river_float() + Global.config.camera_num_segments_look_ahead)
 		var index_ahead_rect := Rect2(pos_ahead.x, pos_ahead.y, 10, 10)
 		expand_bounds(index_ahead_rect)
 

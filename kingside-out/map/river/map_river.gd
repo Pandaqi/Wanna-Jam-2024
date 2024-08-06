@@ -1,15 +1,23 @@
 class_name MapRiver extends Node2D
 
 var river_generator : RiverGenerator
+var river_subdivider : RiverSubdivider
 
+@export var area_drawer_scene : PackedScene
+@export var spawner : MapSpawnerRiver
 @export var map_data : RiverMapData
 @export var finish_line_scene : PackedScene
 @onready var bodies : Node2D = $Bodies
 @onready var water_texture : Node2D = $WaterTexture
+@onready var areas : Node2D = $Areas
 
 func activate() -> void:
 	river_generator = RiverGenerator.new()
+	river_subdivider = RiverSubdivider.new()
+	
 	map_data.gen = river_generator
+	map_data.subdiv = river_subdivider
+	
 	regenerate()
 
 func regenerate() -> void:
@@ -17,6 +25,7 @@ func regenerate() -> void:
 	queue_redraw()
 	create_line_colliders()
 	water_texture.update(river_generator)
+	create_areas()
 	create_finish()
 
 func _draw() -> void:
@@ -54,6 +63,17 @@ func create_line_collider(arr:Array[Vector2]) -> void:
 
 func get_bounds() -> Rect2:
 	return river_generator.bounds
+
+func create_areas() -> void:
+	# actually generate the areas first
+	river_subdivider.apply(river_generator, spawner)
+	
+	# then create a node to nicely display them
+	for area in river_subdivider.areas:
+		var a = area_drawer_scene.instantiate()
+		areas.add_child(a)
+		a.update(area)
+	
 
 func create_finish() -> void:
 	var s = finish_line_scene.instantiate()

@@ -16,7 +16,7 @@ func activate(num:int, element_spawner:ElementSpawner) -> void:
 	
 	vehicle_manager.finished.connect(on_finished)
 	element_grabber.activate(vehicle_manager, element_dropper)
-	element_converter.activate(element_grabber)
+	element_converter.activate(element_grabber, river_tracker)
 	element_dropper.activate(vehicle_manager, element_converter, element_spawner)
 	river_tracker.activate(vehicle_manager)
 

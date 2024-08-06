@@ -129,14 +129,14 @@ func line_intersects_river(line:Line) -> bool:
 	return false
 
 func cache_river_bounds() -> void:
-	var min := Vector2(INF, INF)
-	var max := Vector2(-INF, -INF)
+	var min_pos := Vector2(INF, INF)
+	var max_pos := Vector2(-INF, -INF)
 	for i in range(river_center.size()):
-		min.x = min(river_bank_left[i].x, river_bank_right[i].x, min.x)
-		min.y = min(river_bank_left[i].y, river_bank_right[i].y, min.y)
-		max.x = max(river_bank_left[i].x, river_bank_right[i].x, max.x)
-		max.y = max(river_bank_left[i].y, river_bank_right[i].y, max.y)
-	bounds = Rect2(min.x, min.y, max.x - min.x, max.y - min.y)
+		min_pos.x = min(river_bank_left[i].x, river_bank_right[i].x, min_pos.x)
+		min_pos.y = min(river_bank_left[i].y, river_bank_right[i].y, min_pos.y)
+		max_pos.x = max(river_bank_left[i].x, river_bank_right[i].x, max_pos.x)
+		max_pos.y = max(river_bank_left[i].y, river_bank_right[i].y, max_pos.y)
+	bounds = Rect2(min_pos.x, min_pos.y, max_pos.x - min_pos.x, max_pos.y - min_pos.y)
 
 func get_bounds() -> Rect2:
 	return bounds

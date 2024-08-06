@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://brf6bx615ewe5"]
+[gd_scene load_steps=23 format=3 uid="uid://brf6bx615ewe5"]
 
 [ext_resource type="Script" path="res://map/river/map_river.gd" id="1_0gj85"]
 [ext_resource type="Script" path="res://game_loop/main_river/main_river.gd" id="1_7xv6r"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://map/elements/element_spawner.gd" id="6_s0huj"]
 [ext_resource type="Resource" uid="uid://bv8cc8g4sb15k" path="res://map/river/river_spawner.tres" id="7_7vl82"]
 [ext_resource type="PackedScene" uid="uid://da3hrr4wapyr0" path="res://map/decorations/decoration.tscn" id="7_bjs7v"]
+[ext_resource type="PackedScene" uid="uid://qu5on1add0hi" path="res://map/river/areas/river_area_drawer.tscn" id="10_r0hyn"]
 [ext_resource type="Resource" uid="uid://cudbqplakte1q" path="res://players/players_data.tres" id="11_2y2kc"]
 [ext_resource type="PackedScene" uid="uid://d2l82ygw6mow5" path="res://map/elements/element.tscn" id="11_jpc6u"]
 [ext_resource type="PackedScene" uid="uid://ccbukfd4biu58" path="res://map/obstacles/rocks/rocks.tscn" id="12_53lxc"]
@@ -55,6 +56,8 @@ color = Color(0.0705882, 0.290196, 0.027451, 1)
 
 [node name="Map" type="Node2D" parent="."]
 script = ExtResource("1_0gj85")
+area_drawer_scene = ExtResource("10_r0hyn")
+spawner = ExtResource("7_7vl82")
 map_data = ExtResource("2_ydrg4")
 finish_line_scene = ExtResource("4_553in")
 
@@ -64,11 +67,12 @@ finish_line_scene = ExtResource("4_553in")
 material = SubResource("ShaderMaterial_kgwc5")
 script = ExtResource("2_ecp8i")
 
+[node name="Areas" type="Node2D" parent="Map"]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("2_i5rqy")
 map_data = ExtResource("2_ydrg4")
 players_data = ExtResource("11_2y2kc")
-mode = null
 
 [node name="ElementSpawner" type="Node2D" parent="."]
 script = ExtResource("6_s0huj")
@@ -77,6 +81,7 @@ decoration_scene = ExtResource("7_bjs7v")
 element_scene = ExtResource("11_jpc6u")
 rocks_scene = ExtResource("12_53lxc")
 water_current_scene = ExtResource("13_war4g")
+map_data = ExtResource("2_ydrg4")
 element_garbage = ExtResource("15_vt824")
 
 [node name="Players" type="Node2D" parent="."]

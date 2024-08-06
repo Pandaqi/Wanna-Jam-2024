@@ -31,8 +31,6 @@ func on_body_entered(body:Node2D) -> void:
 	if is_excluded(body): return
 	
 	body.queue_free()
-	
-	print("Picked up element")
 	if body.needs_processing():
 		available_for_processing.emit(body.data)
 		return

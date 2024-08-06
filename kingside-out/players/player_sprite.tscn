@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpbgjneoec0ig"]
+
+[ext_resource type="Texture2D" uid="uid://c2ja5gmg3ljqk" path="res://players/players.webp" id="1_hscq1"]
+
+[node name="PlayerSprite" type="Sprite2D"]
+texture = ExtResource("1_hscq1")
+hframes = 4
+vframes = 2

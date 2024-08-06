@@ -1,5 +1,7 @@
 class_name MapSpawner extends Resource
 
+@export var all_elements : Array[ElementData] = []
+
 func query_position(_params:Dictionary) -> Vector2:
 	return Vector2.ZERO
 

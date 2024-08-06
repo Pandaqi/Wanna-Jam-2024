@@ -2,6 +2,15 @@ extends StaticBody2D
 
 @onready var col_shape : CollisionShape2D = $CollisionShape2D
 @onready var sprite : Sprite2D = $Sprite2D
+@onready var health : ModuleHealth = $Health
+@onready var water_ripples = $WaterRipples
+
+func _ready():
+	health.depleted.connect(on_health_depleted)
+	
+	var ripple_sprite = water_ripples.get_node("Sprite2D")
+	ripple_sprite.material = ripple_sprite.material.duplicate(false)
+	ripple_sprite.material.set_shader_parameter("speed", randf_range(0.3, 0.8));
 
 func from_spawn_point(sp:PossibleSpawnPoint) -> void:
 	set_position(sp.pos)
@@ -18,9 +27,25 @@ func from_spawn_point(sp:PossibleSpawnPoint) -> void:
 	
 	var radius := randf_range(radius_bounds.start, max_radius)
 	set_radius(radius)
+	
+	var base_health := radius * Global.config.rocks_health_per_radius
+	health.set_base_health(base_health, true)
 
 func set_radius(r:float) -> void:
 	var shp = CircleShape2D.new()
 	shp.radius = r
 	col_shape.shape = shp
-	sprite.set_scale(Vector2.ONE * 2 * r / 128.0)
+	
+	var final_scale := Vector2.ONE * 2 * r / Global.config.sprite_base_size
+	sprite.set_scale(final_scale)
+	water_ripples.set_scale(final_scale)
+
+func on_health_depleted() -> void:
+	if not Global.config.rocks_can_be_destroyed: return
+	if Global.config.rocks_spawn_random_elements:
+		self.call_deferred("drop_element")
+	self.queue_free()
+
+func drop_element() -> void:
+	var sp = PossibleSpawnPoint.new(global_position)
+	Global.drop_element.emit(sp)

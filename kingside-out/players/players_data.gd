@@ -10,11 +10,11 @@ func add_player(p:Player) -> void:
 	players.append(p)
 
 func get_extreme_player(dir:int) -> Player:
-	var worst_index : int = -dir*100000
+	var worst_index : float = -dir*100000.0
 	var worst_player : Player = players.front()
 	
 	for p in players:
-		var idx = p.river_tracker.get_index_on_river_float()
+		var idx := p.river_tracker.get_index_on_river_float()
 		if dir*idx > dir*worst_index:
 			worst_index = idx
 			worst_player = p

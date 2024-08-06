@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_u22tp")
 frame = 0
-unprocessed = true
+processed = false
+color = Color(0.781968, 0.273661, 0.469927, 1)

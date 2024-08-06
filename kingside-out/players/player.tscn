@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmwlybd45emhm"]
+[gd_scene load_steps=10 format=3 uid="uid://bmwlybd45emhm"]
 
 [ext_resource type="Script" path="res://players/player.gd" id="1_x4sn3"]
 [ext_resource type="Script" path="res://players/modules/input.gd" id="2_ig306"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://players/modules/element_grabber.gd" id="4_i8w0q"]
 [ext_resource type="Script" path="res://players/modules/element_dropper.gd" id="5_qhvmn"]
 [ext_resource type="Script" path="res://players/modules/element_converter.gd" id="5_ymhcn"]
+[ext_resource type="Resource" uid="uid://bv8cc8g4sb15k" path="res://map/river/river_spawner.tres" id="6_oicai"]
 [ext_resource type="Script" path="res://players/modules/river_tracker.gd" id="7_rf7bx"]
 [ext_resource type="Resource" uid="uid://bdqh3uxn868mc" path="res://map/river/river_map_data.tres" id="8_ktw5b"]
 
@@ -23,6 +24,7 @@ script = ExtResource("4_i8w0q")
 
 [node name="ElementConverter" type="Node2D" parent="."]
 script = ExtResource("5_ymhcn")
+spawner = ExtResource("6_oicai")
 
 [node name="Timer" type="Timer" parent="ElementConverter"]
 one_shot = true

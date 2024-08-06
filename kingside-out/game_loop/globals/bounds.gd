@@ -29,5 +29,10 @@ func scale(s:float) -> Bounds:
 	end *= s
 	return self
 
+func scale_bounds(b:Bounds) -> Bounds:
+	start *= b.start
+	end *= b.end
+	return self
+
 func interpolate(factor:float) -> float:
 	return lerp(start, end, factor)

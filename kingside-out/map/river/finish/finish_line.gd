@@ -31,7 +31,7 @@ func update(finish_line:Line) -> void:
 	new_shp.size = desired_size
 	col_shape.shape = new_shp
 
-func _physics_process(dt:float) -> void:
+func _physics_process(_dt:float) -> void:
 	var bodies = area.get_overlapping_bodies()
 	for body in bodies:
 		if not body.is_in_group("Vehicles"): continue

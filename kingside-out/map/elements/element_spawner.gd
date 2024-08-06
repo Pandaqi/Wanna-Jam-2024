@@ -5,10 +5,12 @@ class_name ElementSpawner extends Node2D
 @export var element_scene : PackedScene
 @export var rocks_scene : PackedScene
 @export var water_current_scene : PackedScene
+@export var map_data : RiverMapData
 
 @export var element_garbage : ElementData
 
 func activate() -> void:
+	Global.drop_element.connect(on_element_drop)
 	spawner.object_start_offset = Global.config.object_start_offset
 	place_decorations()
 	place_obstacles()
@@ -60,5 +62,14 @@ func spawn_object(scene:PackedScene, spawn_point:PossibleSpawnPoint) -> Node2D:
 	return new_node
 
 func on_element_drop(sp:PossibleSpawnPoint) -> Node2D:
+	
+	if not sp.type_elem:
+		sp.type_elem = spawner.all_elements.pick_random()
+	
+	if Global.config.area_determines_drop_type:
+		var idx_of_pos = map_data.get_index_closest_to(sp.pos, -1)
+		var area := map_data.subdiv.get_area_at_index(idx_of_pos)
+		sp.type_elem = area.type
+	
 	print("Should drop element", sp.type_elem, sp.pos, sp.force)
 	return spawn_object(element_scene, sp)

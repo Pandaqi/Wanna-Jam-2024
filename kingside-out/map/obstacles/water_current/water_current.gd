@@ -28,8 +28,8 @@ func from_spawn_point(sp:PossibleSpawnPoint) -> void:
 		self.queue_free()
 		return
 	
-	var radius := randf_range(radius_bounds.start, max_radius)
-	set_radius(radius)
+	var new_radius := randf_range(radius_bounds.start, max_radius)
+	set_radius(new_radius)
 	update_shader()
 
 func set_radius(r:float) -> void:
@@ -44,7 +44,7 @@ func update_shader() -> void:
 	sprite.material.set_shader_parameter("scroll_speed", Global.config.water_current_scroll_speed * strength)
 	sprite.material.set_shader_parameter("scale", Global.config.water_current_shader_scale * sprite.scale.x)
 
-func _physics_process(dt: float) -> void:
+func _physics_process(_dt: float) -> void:
 	var bodies = get_overlapping_bodies()
 	var force := get_current_force()
 	for body in bodies:

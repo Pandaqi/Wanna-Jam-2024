@@ -11,25 +11,38 @@
 
 ## Rowing Game
 
-* Test different **rowing mechanics**.
-  * Only on press (as opposed to continuous).
-    * This is hard on a controller, though. So we'll need a "recharge" mechanic anyway, to differentiate between when the movement vector should be considered for a new rowing motion
-  * Rowing motions need time to recharge. Pressing the button _perfectly_ after recharge has some bonus; pressing it earlier has some penalty or does nothing.
-  * If you press both at (roughly?) the same time, go _straight forward_. (Now it does nothing because both forces cancel each other.)
-* Allow going to game over and displaying the ranking.
+TODO:
+* Figure out map layer order (now players are on top of plants, for example, and tutorials are hard to place well)
+* Add all the possible elements => they execute their change _themselves_, but let's just keep it in one big if-statement for now for simplicity
+  * Not only their data, also some simple sprite to already use
+* Finish areas
+  * Modulate decorations, maybe even rocks.
+  * Add the ground texture _around_ the river, also modulated? => Do a quick sketch in affinity to get the texture, but also correct colors for water+ground+everything
+  * Finish tutorial pole + fill with info from element data. (PICK FONTS)
+* Go to game over screen on finish => display ranking and winner, allow going again or going back
   * All info (such as finish times) is in StateData shared resource
+* Get simple player login screen + key hints at start (in game itself!), to make the game TESTABLE
 
 
-@IDEA! "Inside Out" -> if you hit stones often/hard enough, they break apart and something else comes out of it. (An element that is already converted to something.)
 
-@IDEA! Break the segments into "areas"/sequences of the same type. Then, whenever your element conversion is finished, the type that comes out is determined by the area you're currently in. (And when it comes out, it "blasts away from you" just a little bit, so you _can_ change course to grab it yourself if you want
+TEST:
+* Discrete canoe movement
+
+
+POSSIBLE ELEMENTS:
+* Grow/Shrink Canoe
+* More/Less Speed
+* Time Bonus/Penalty
+* Canoe Heavier/Lighter (but that might be too subtle for players)
+* Immunity from Rocks/Currents/Other boats
+* Explode all obstacles around you
+
 
 
 ## General
 
 * Put the other game mode into `main_castle.tscn` or something.
 * RowingBoat movement/mechanics
-  * The rowing boat should emit a signal when finished, which the player can then listen to and determine it has finished.
 * Converter (Element goes in, wait a while, something else is dropped)
 * MonsterSpawner (in waves, increasing difficulty, random positions screen edge)
 * ElementSpawner (just spawn randomly, not too close to players, with min/max restrictions)
@@ -50,8 +63,13 @@
 
 ## Polishing
 
+* Prevent finished boats from going back into the route? (Just disable their movement entirely? A one-way wall? They can go back, but they just can't interact with anything anymore?)
+* Boat damage/health playing a role?
+* River bend bounds are allowed to be quite a bit higher
+* Add the option of displaying a progress bar to the health module.
 * BOOST: show on the canoe (of last player) that they're being boosted. (Also destroy stuff in their immediate surroundings to make sure they get unstuck?)
 * SPAWNING: Maybe add some _moving/more dynamic_ obstacles on the river => re-use the MonsterSpawner for this!
+  * Piranhas I guess?
 * Probably want a wider/longer river on higher player count.
 * Background should probably be lighter and also textured a bit. => Place some gradient/texture DECORATIONS as well (much larger than current flowers, still at the edge)
 

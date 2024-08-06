@@ -1,8 +1,11 @@
-[gd_resource type="Resource" script_class="MapSpawnerRiver" load_steps=3 format=3 uid="uid://bv8cc8g4sb15k"]
+[gd_resource type="Resource" script_class="MapSpawnerRiver" load_steps=5 format=3 uid="uid://bv8cc8g4sb15k"]
 
 [ext_resource type="Script" path="res://map/river/river_spawner.gd" id="1_5osu1"]
+[ext_resource type="Script" path="res://map/elements/element_data.gd" id="1_sg1ri"]
 [ext_resource type="Resource" uid="uid://bdqh3uxn868mc" path="res://map/river/river_map_data.tres" id="1_t85jy"]
+[ext_resource type="Resource" uid="uid://r8i7me8uw0kx" path="res://map/elements/element_garbage.tres" id="2_jbal4"]
 
 [resource]
 script = ExtResource("1_5osu1")
 river_map_data = ExtResource("1_t85jy")
+all_elements = Array[ExtResource("1_sg1ri")]([ExtResource("2_jbal4")])

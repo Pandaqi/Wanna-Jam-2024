@@ -5,10 +5,17 @@
 [resource]
 script = ExtResource("1_84xtn")
 canoe_size = Vector2(128, 64)
+canoe_body_bevel = 2.0
 canoe_mass = 100.0
 map_size_scalar = 12.0
 river_max_tries_before_give_up = 20
 river_max_rotation_per_step = 0.471239
-target_river_length = 4.0
+target_river_length = 10.0
 river_width_def = 0.5
+water_current_scroll_speed = 0.5
+water_current_shader_scale = 1.75
 water_current_backwards_strength_modifier = 0.33
+canoe_timer_duration = 0.5
+canoe_movement_mode = 0
+canoe_timer_perfect_threshold = 0.066
+canoe_perfect_timing_reward = 1.66
