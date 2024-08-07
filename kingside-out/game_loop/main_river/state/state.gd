@@ -8,10 +8,10 @@ var start_time := 0.0
 func activate() -> void:
 	state_data.reset()
 	start_time = Time.get_ticks_msec()
-	Global.player_finished.connect(on_player_finished)
+	GSignalBus.player_finished.connect(on_player_finished)
 
 func get_cur_time() -> float:
-	return (Time.get_ticks_msec() - start_time) / 1000.0
+	return Time.get_ticks_msec() - start_time
 
 func on_player_finished(num:int) -> void:
 	state_data.record_time(num, get_cur_time())
@@ -25,4 +25,4 @@ func on_player_finished(num:int) -> void:
 	if not all_players_finished: return
 	
 	print("Game Over!")
-	Global.game_over.emit()
+	GSignalBus.game_over.emit()

@@ -26,7 +26,7 @@ func generate_river() -> bool:
 	var width_change_bounds := Global.config.river_width_change_bounds.clone().scale(base_width)
 	var step_dist_bounds :=  Global.config.river_step_dist_bounds.clone().scale( Global.config.get_map_base_size() )
 	var bend_change_bounds := Global.config.river_bend_change_bounds
-	var max_rotation_per_step := Global.config.river_max_rotation_per_step
+	var rotation_per_step_bounds := Global.config.river_rotation_per_step_bounds
 	var target_river_length := Global.config.get_map_base_size() * Global.config.target_river_length
 	
 	# prepare helper classes
@@ -56,7 +56,7 @@ func generate_river() -> bool:
 		cur_width_right.pick_next_value()
 		
 		var new_step_dist := step_dist_bounds.rand_float()
-		var new_max_rotation_per_step := max_rotation_per_step
+		var new_rotation_per_step_bounds := rotation_per_step_bounds.clone()
 		var new_bend := cur_bend.pick_next_value()
 		
 		var next_pos : Vector2
@@ -68,7 +68,7 @@ func generate_river() -> bool:
 		while invalid_position:
 			invalid_position = false
 			
-			var rot := randf_range(0,1) * new_bend * new_max_rotation_per_step
+			var rot := new_bend * new_rotation_per_step_bounds.rand_float()
 			var new_vec := prev_vec.normalized().rotated(rot)
 			
 			next_pos = last_pos + new_vec * new_step_dist
@@ -86,7 +86,7 @@ func generate_river() -> bool:
 				cur_width_left.scale_value(0.95)
 				cur_width_right.scale_value(0.95)
 				new_step_dist *= 0.95
-				new_max_rotation_per_step *= 1.05
+				new_rotation_per_step_bounds.scale(1.05)
 			
 			num_tries += 1
 			var no_solution_possible := num_tries >= Global.config.river_max_tries_before_give_up

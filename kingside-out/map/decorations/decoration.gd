@@ -1,4 +1,4 @@
-extends Node2D
+class_name Decoration extends Node2D
 
 func _ready():
 	var scale_bounds := Global.config.decoration_scale_bounds.clone().scale(Global.config.get_map_base_size()).scale_bounds(Global.config.decoration_step_bounds)

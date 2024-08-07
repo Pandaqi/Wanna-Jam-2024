@@ -1,8 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://hr0rfojthfbl"]
 
-[ext_resource type="Script" path="res://game_loop/globals/global.gd" id="1_abdlk"]
-[ext_resource type="Resource" uid="uid://dwx4ywn8mxuvb" path="res://game_loop/globals/config_river.tres" id="2_fdhlt"]
+[ext_resource type="Script" path="res://game_loop/globals/Global.gd" id="1_ppopn"]
+[ext_resource type="Resource" uid="uid://dwx4ywn8mxuvb" path="res://game_loop/globals/config_river.tres" id="2_rc6hd"]
 
 [node name="Global" type="Node"]
-script = ExtResource("1_abdlk")
-config = ExtResource("2_fdhlt")
+script = ExtResource("1_ppopn")
+config = ExtResource("2_rc6hd")

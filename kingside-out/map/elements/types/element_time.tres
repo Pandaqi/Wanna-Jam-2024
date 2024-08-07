@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ElementData" load_steps=2 format=3 uid="uid://8t5xvjcg3b2d"]
+
+[ext_resource type="Script" path="res://map/elements/element_data.gd" id="1_btjxx"]
+
+[resource]
+script = ExtResource("1_btjxx")
+frame = 2
+processed = true
+color = Color(0.0470588, 0.615686, 0.584314, 1)
+desc = "A time bonus or penalty once you cross the finish line."
+speed_change = 1.0
+time_change = -5.0
+size_change = 1.0
+mass_change = 1.0
+make_ghost = false
+piranha_change = 1.0
+explode = false

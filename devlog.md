@@ -78,6 +78,8 @@ The third and final one has to do with graphics. Because of my 15+ years experie
 
 ## Step 1: Start with rowing
 
+### A first attempt
+
 With so much work to do, and so many unknowns, it's easy to get overwhelmed. As such, I decided to latch onto the simplest part to execute and _make specific_, just to get something going.
 
 That turned out to be the rowing idea. Even though I expected this to _not_ be the final game, the first thing I created was ...
@@ -87,13 +89,55 @@ That turned out to be the rowing idea. Even though I expected this to _not_ be t
 * Randomly spawning elements to convert, areas with a current, etcetera.
 * And finishing that core game loop.
 
-This forced me to make specific scripts and implementations for at least half the things I'd also need for the other ideas. The rowing motion, obviously. But also, for example, the `ElementSpawner`. In this simple "rowing race" the spawner is linked to a function that generates random positions on the track. In the other modes, that same general module would juts be linked to a _different_ function that spawns the elements in some slightly different way.
+This forced me to make specific scripts and implementations for at least half the things I'd also need for the other ideas. The rowing motion, obviously. But also, for example, the `ElementSpawner`. In this simple "rowing race" the spawner is linked to a function that generates random positions on the track. In the other modes, that same general module would just be linked to a _different_ function that spawns the elements in some slightly different way.
 
 This took about a day, but it allowed me to make progress and built parts of the general skeleton. It also just ended up being a fun game and, if all else fails, I'll just submit this one :p
 
 {{% remark %}}
 I'll see if I can make a tutorial about how I did the river track. It's a rather simple algorithm that creates organic, non-problematic rivers. With the proper boundaries around it, so you can't go out of bounds, a seamless water shader over it, etcetera. But it uses a lot of tricks and cool ideas that I think others might find useful too!
 {{% /remark %}}
+
+### I still have no clue
+
+Okay, now I had a "game". You could press one button to paddle left, one to paddle right, and you could follow a river until the finish.
+
+Where was I going with this? I didn't know! But I couldn't waste time---and sitting still and doubting never brings you anything---so I just started implementing all sorts of ideas that came to me.
+
+* I placed random rocks within the river, with the assurance that there was always a way around it. This made it far more varied and challenging to race the track.
+* I added water currents. Hotspots that clearly push you in a certain direction. (And I made a shader to nicely show this direction and strength, otherwise players would just be confused.)
+* I added _damage_ to the rocks => if you hit them often enough, they break apart and reveal some nice thing to pick up.
+  * I also did this just in case you _did_ ever get stuck behind rocks, however rare.
+* I subdivided the river into sections. (Because the river is just a list of points in the first place, this is extremely easy to do: just cut that array into random pieces.)
+  * First of all: for visual variation. Each section has its own color and variations on how things can be placed etcetera.
+  * Secondly, so that I can show a simple "tutorial sign" whenever a new area starts. (So you learn what each element does as you play the game.)
+  * Thirdly, so that the area can _determine_ what elements come out of you. ( = If you're in the red area, any garbage you pick up will come as the Red element a few seconds later.) 
+
+All of these ideas were fine. But I still didn't really know what I was moving towards. And I was surely moving _away_ from the theme of the jam.
+
+Although it is fun to wobble around in my random river, I currently have no great ideas for how to actually make that a more full-fledged game.
+
+I decided to come back to the jam's theme and just finish a "playable version", then completely shift to the next simplest idea.
+
+### A "minimum viable prototype" of rowing
+
+In practice, this meant the following.
+
+* Add some barebones menu and game over screen (with the finish times and such), to close the game loop.
+* Add some barebones images to see what we're doing. (Mostly more _shaders_ to make water seem like water, and the other things to seem like they _drift_ on the water. I'm not good with shaders, so I was fine with this extra bit of practice.)
+* JAM THEME: Allow players to get _out of their boats_. (So you can be inside or outside the boat.)
+  * I added damage to the boats as well. Once they're destroyed, you end up in the water. (Behind the scenes, you change your `Vehicle` from Canoe to Swimming :p)
+  * This makes you slower and more restricted.
+  * Once you pick up the Canoe powerup, you get it back.
+* SINGLE PLAYER: Navigating the track has now become too sophisticated to make an "AI" opponent (that is actually smart and balanced). So, instead, I decided to support single player with the time-tested "the lava is rising / the ceiling is falling"-threat.
+  * There is a bunch of piranhas that starts behind you. You must stay ahead of them; if they catch you before finishing, you lose.
+  * These piranhas don't move around like the player. They just follow the predetermined river path, point to point, ignoring any obstacles.
+  * BUT they can be distracted by the elements you drop. 
+
+Many of these things are mechanics I needed to code for the other ideas anyway. (Moving from land to water (in/out boat), entities being distracted by closest element, etcetera.)
+
+But ... trying to do all this in _the same project_ was a bit of a bad idea. At this point, I just assumed the current project was entirely for the _rowing idea_, and would start a new one (copying over whatever was needed) for the others. I _could_ have put all files in unique folders per game prototype, but that would just mean endless folders, with one big _shared_ folder that was even messier, and it was all just a bit meh.
+
+
 
 
 

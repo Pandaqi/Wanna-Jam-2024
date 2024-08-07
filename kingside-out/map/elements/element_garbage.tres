@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="ElementData" load_steps=2 format=3 uid="uid://r8i7me8uw0kx"]
-
-[ext_resource type="Script" path="res://map/elements/element_data.gd" id="1_u22tp"]
-
-[resource]
-script = ExtResource("1_u22tp")
-frame = 0
-processed = false
-color = Color(0.781968, 0.273661, 0.469927, 1)

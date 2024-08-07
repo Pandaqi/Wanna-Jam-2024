@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://w47q3r32a4uk"]
+
+[ext_resource type="Script" path="res://players/vehicles/modules/physics.gd" id="1_hbge1"]
+
+[node name="Physics" type="Node2D"]
+script = ExtResource("1_hbge1")
+
+[node name="TimerGhost" type="Timer" parent="."]
+one_shot = true

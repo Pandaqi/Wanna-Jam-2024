@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmwlybd45emhm"]
+[gd_scene load_steps=13 format=3 uid="uid://bmwlybd45emhm"]
 
 [ext_resource type="Script" path="res://players/player.gd" id="1_x4sn3"]
 [ext_resource type="Script" path="res://players/modules/input.gd" id="2_ig306"]
@@ -9,6 +9,9 @@
 [ext_resource type="Resource" uid="uid://bv8cc8g4sb15k" path="res://map/river/river_spawner.tres" id="6_oicai"]
 [ext_resource type="Script" path="res://players/modules/river_tracker.gd" id="7_rf7bx"]
 [ext_resource type="Resource" uid="uid://bdqh3uxn868mc" path="res://map/river/river_map_data.tres" id="8_ktw5b"]
+[ext_resource type="Script" path="res://players/modules/effects.gd" id="10_h13nv"]
+[ext_resource type="Script" path="res://players/modules/tutorial.gd" id="11_h0rwn"]
+[ext_resource type="PackedScene" uid="uid://cg4t1l5nufk4l" path="res://game_loop/input_select/input_hint.tscn" id="12_c76rt"]
 
 [node name="Player" type="Node2D" groups=["Players"]]
 script = ExtResource("1_x4sn3")
@@ -46,3 +49,12 @@ theme_override_font_sizes/font_size = 24
 text = "-1"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EffectsTracker" type="Node" parent="."]
+script = ExtResource("10_h13nv")
+
+[node name="Tutorial" type="Node2D" parent="."]
+top_level = true
+script = ExtResource("11_h0rwn")
+
+[node name="InputHint" parent="Tutorial" instance=ExtResource("12_c76rt")]

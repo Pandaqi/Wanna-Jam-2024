@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ElementData" load_steps=2 format=3 uid="uid://dlkjchfq7x6od"]
+
+[ext_resource type="Script" path="res://map/elements/element_data.gd" id="1_xlbk8"]
+
+[resource]
+script = ExtResource("1_xlbk8")
+frame = 7
+processed = true
+color = Color(0.933333, 0.909804, 0.223529, 1)
+desc = "Makes you heavier, hitting harder."
+speed_change = 1.0
+time_change = 0.0
+size_change = 1.0
+mass_change = 1.125
+make_ghost = false
+piranha_change = 1.0
+explode = false

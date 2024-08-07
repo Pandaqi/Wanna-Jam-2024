@@ -6,11 +6,6 @@ var recovering := false
 var last_recover_time := 0.0
 var last_input_reset_time := 0.0
 
-# how much of the impulse should be for pushing the canoe forward
-# (the other part is for rotating us to the side)
-var percentage_forward := 0.25
-var power := 5.0
-
 @onready var timer : Timer = $Timer
 @onready var mover : ModuleVehicleMover = get_parent()
 
@@ -38,11 +33,11 @@ func poll_inputs() -> void:
 
 func row(dir:int) -> void:
 	var forward_vec := mover.get_forward_vector()
-	var final_power := power * mover.get_mass()
+	var final_power := Global.config.canoe_vehicle_power * mover.get_mass() * mover.speed_factor
 	if is_perfect_timing():
 		final_power *= Global.config.canoe_perfect_timing_reward
 	
-	var impulse_rot : float = lerp(0.0, 0.5*PI*dir, 1.0 - percentage_forward)
+	var impulse_rot : float = lerp(0.0, 0.5*PI*dir, 1.0 - Global.config.canoe_percentage_forward)
 	var impulse_vec := forward_vec.rotated(impulse_rot) * final_power
 	
 	# = offset from body ORIGIN in GLOBAL coordinates

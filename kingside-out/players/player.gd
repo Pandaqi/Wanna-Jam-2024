@@ -9,6 +9,8 @@ var finished := false
 @onready var element_converter : ModuleElementConverter = $ElementConverter
 @onready var element_dropper : ModuleElementDropper = $ElementDropper
 @onready var river_tracker : ModuleRiverTracker = $RiverTracker
+@onready var effects_tracker : ModuleEffectsTracker = $EffectsTracker
+@onready var tutorial : ModuleTutorial = $Tutorial
 
 func activate(num:int, element_spawner:ElementSpawner) -> void:
 	player_num = num
@@ -19,8 +21,9 @@ func activate(num:int, element_spawner:ElementSpawner) -> void:
 	element_converter.activate(element_grabber, river_tracker)
 	element_dropper.activate(vehicle_manager, element_converter, element_spawner)
 	river_tracker.activate(vehicle_manager)
+	tutorial.activate(player_num)
 
 func on_finished() -> void:
 	finished = true
-	Global.player_finished.emit(player_num)
+	GSignalBus.player_finished.emit(player_num)
 	print("PLAYER " + str(player_num) + "HAS FINISHED!")

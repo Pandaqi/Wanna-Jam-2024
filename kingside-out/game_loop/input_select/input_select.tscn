@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu4nbk2ha5kgc"]
+
+[ext_resource type="Script" path="res://game_loop/input_select/input_select.gd" id="1_gymrm"]
+[ext_resource type="PackedScene" uid="uid://dvngxkcptpusm" path="res://game_loop/input_select/player_select.tscn" id="2_fsn41"]
+
+[node name="InputSelect" type="Node2D"]
+script = ExtResource("1_gymrm")
+player_select_scene = ExtResource("2_fsn41")

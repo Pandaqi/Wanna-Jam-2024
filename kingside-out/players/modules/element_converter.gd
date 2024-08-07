@@ -22,7 +22,7 @@ func process_element(ed:ElementData):
 		new_data = river_tracker.get_current_area().type
 	on_process_complete(new_data)
 	
-	# @TODO: display some animation
+	# @TODO: display some animation while busy
 
 func on_process_complete(ed:ElementData):
 	available_for_drop.emit(ed)

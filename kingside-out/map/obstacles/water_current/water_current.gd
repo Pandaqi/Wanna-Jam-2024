@@ -1,4 +1,4 @@
-extends Area2D
+class_name WaterCurrent extends Area2D
 
 @export var radius := 1.0
 @export var strength := 1.0 # this is a fraction of bounds defined in config
@@ -46,16 +46,20 @@ func update_shader() -> void:
 
 func _physics_process(_dt: float) -> void:
 	var bodies = get_overlapping_bodies()
-	var force := get_current_force()
+	
 	for body in bodies:
 		if not (body is RigidBody2D): continue
+		var force := get_current_force(body)
 		body.apply_central_force(force)
 
-func get_current_strength() -> float:
-	return Global.config.water_current_strength.interpolate(strength) * Global.config.canoe_mass
+func get_current_strength(body:RigidBody2D) -> float:
+	return Global.config.water_current_strength.interpolate(strength) * body.mass * Global.config.canoe_vehicle_power
 
-func get_current_force() -> Vector2:
-	return get_current_dir() * get_current_strength()
+func get_current_force(body:RigidBody2D) -> Vector2:
+	return get_current_dir() * get_current_strength(body)
 
 func get_current_dir() -> Vector2:
 	return Vector2.RIGHT.rotated( get_rotation() )
+
+func kill() -> void:
+	queue_free()

@@ -1,12 +1,15 @@
-extends StaticBody2D
+class_name Obstacle extends StaticBody2D
 
 @onready var col_shape : CollisionShape2D = $CollisionShape2D
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var health : ModuleHealth = $Health
 @onready var water_ripples = $WaterRipples
 
+signal size_changed(new_size:Vector2)
+
 func _ready():
 	health.depleted.connect(on_health_depleted)
+	size_changed.connect(health.on_size_changed)
 	
 	var ripple_sprite = water_ripples.get_node("Sprite2D")
 	ripple_sprite.material = ripple_sprite.material.duplicate(false)
@@ -36,16 +39,23 @@ func set_radius(r:float) -> void:
 	shp.radius = r
 	col_shape.shape = shp
 	
-	var final_scale := Vector2.ONE * 2 * r / Global.config.sprite_base_size
+	var new_size := Vector2.ONE * 2 * r
+	var final_scale := new_size / Global.config.sprite_base_size
 	sprite.set_scale(final_scale)
+	health.set_scale(final_scale)
 	water_ripples.set_scale(final_scale)
+	
+	size_changed.emit(new_size)
 
 func on_health_depleted() -> void:
 	if not Global.config.rocks_can_be_destroyed: return
+	kill()
+
+func kill() -> void:
 	if Global.config.rocks_spawn_random_elements:
 		self.call_deferred("drop_element")
 	self.queue_free()
 
 func drop_element() -> void:
 	var sp = PossibleSpawnPoint.new(global_position)
-	Global.drop_element.emit(sp)
+	GSignalBus.drop_element.emit(sp)

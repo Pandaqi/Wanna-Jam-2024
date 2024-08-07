@@ -2,10 +2,22 @@ extends Node2D
 
 var area : RiverArea
 
-@onready var tutorial : Node2D = $Tutorial
+@export var tutorial_scene : PackedScene
+
+func _ready() -> void:
+	material = material.duplicate(false)
 
 func update(ra:RiverArea) -> void:
 	area = ra
+	area.area_changed.connect(on_area_changed)
+	on_area_changed()
+
+func on_area_changed() -> void:
+	
+	material.set_shader_parameter("color", area.type.color)
+	print("#Nodes Inside", area.nodes_inside.size())
+	for node in area.nodes_inside:
+		node.modulate = area.type.color
 	
 	update_tutorial()
 	queue_redraw()
@@ -13,10 +25,15 @@ func update(ra:RiverArea) -> void:
 func update_tutorial() -> void:
 	var start_poly := area.polygons[0]
 	var highest_start_pos = start_poly[0]
+	var flip_arrow := false
 	if start_poly[3].y < highest_start_pos.y:
 		highest_start_pos = start_poly[3]
-	tutorial.global_position = highest_start_pos
-	tutorial.z_index = 3000
+		flip_arrow = true
+	
+	var t = tutorial_scene.instantiate()
+	t.set_position(highest_start_pos)
+	GSignalBus.place_on_map.emit(t, "top")
+	t.set_data(area.type, flip_arrow)
 
 func _draw():
 	var col := area.type.color

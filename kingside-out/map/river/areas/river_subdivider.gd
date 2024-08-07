@@ -27,7 +27,14 @@ func apply(gen:RiverGenerator, spawner:MapSpawnerRiver):
 		# if we've become big enough, reset for a new area 
 		if cur_area.count() >= desired_area_size:
 			cur_area = null
+	
+	# don't forget the loop only goes to the second to last element, so just add the final area to the final element here
+	area_indices.append(areas.size() - 1)
 
 func get_area_at_index(idx:float) -> RiverArea:
-	var idx_conv := area_indices[idx]
+	var idx_conv := area_indices[floor(idx)]
 	return areas[idx_conv]
+
+func save_node_on_area(node, idx:float) -> void:
+	var area = get_area_at_index(idx)
+	area.add_node(node)

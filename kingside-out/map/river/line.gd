@@ -23,3 +23,6 @@ func get_center() -> Vector2:
 
 func get_ortho() -> Vector2:
 	return vec.rotated(0.5*PI)
+
+func as_array() -> PackedVector2Array:
+	return [start, end]

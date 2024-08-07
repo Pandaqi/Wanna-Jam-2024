@@ -34,7 +34,7 @@ func update(finish_line:Line) -> void:
 func _physics_process(_dt:float) -> void:
 	var bodies = area.get_overlapping_bodies()
 	for body in bodies:
-		if not body.is_in_group("Vehicles"): continue
+		if (not body is Vehicle): continue
 		if body.is_finished(): continue
 		var vec_to_body = (body.global_position - global_position).normalized()
 		var dot_prod = vec_to_body.dot(finish_vec)

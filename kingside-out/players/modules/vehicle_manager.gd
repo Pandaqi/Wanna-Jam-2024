@@ -10,18 +10,23 @@ signal finished()
 func activate() -> void:
 	pass
 
-func connect_to(v:Vehicle) -> void:
+func connect_to(v:Vehicle, kill_old := false) -> void:
+	if is_active(): release(kill_old)
+	
 	connected_vehicle = v
 	connected_vehicle.add_driver(get_parent(), Config.CanoeControlSide.BOTH)
 	connected_vehicle.finished.connect(on_finished)
 	connected.emit(v)
 
-func release() -> void:
+func release(kill_old := false) -> void:
 	var v = connected_vehicle
 	connected_vehicle.remove_driver(get_parent())
 	connected_vehicle.finished.disconnect(on_finished)
 	connected_vehicle = null
 	released.emit(v)
+	
+	if kill_old: 
+		v.kill()
 
 func on_finished() -> void:
 	finished.emit()

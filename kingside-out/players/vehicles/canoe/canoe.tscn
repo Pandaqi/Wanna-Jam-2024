@@ -1,0 +1,49 @@
+[gd_scene load_steps=11 format=3 uid="uid://c7ey8wx7l6yj0"]
+
+[ext_resource type="Script" path="res://players/vehicles/canoe/canoe.gd" id="1_6xiqm"]
+[ext_resource type="PackedScene" uid="uid://bak3euftf42lh" path="res://players/vehicles/modules/visuals.tscn" id="2_kw7d4"]
+[ext_resource type="PackedScene" uid="uid://cka8y3k1auqeb" path="res://players/vehicles/swim/vehicle_swim.tscn" id="2_tla4j"]
+[ext_resource type="PackedScene" uid="uid://w47q3r32a4uk" path="res://players/vehicles/modules/physics.tscn" id="3_ce73f"]
+[ext_resource type="Resource" uid="uid://dl4f2ywwpo0jd" path="res://map/elements/types/element_canoe.tres" id="3_uae4b"]
+[ext_resource type="PackedScene" uid="uid://cfe2c5p70fowk" path="res://players/vehicles/paddle/paddle.tscn" id="4_s1lbd"]
+[ext_resource type="Script" path="res://players/vehicles/canoe/canoe_mover.gd" id="5_38k5r"]
+[ext_resource type="PackedScene" uid="uid://bi5eujdwlmsk5" path="res://players/vehicles/modules/feeler.tscn" id="8_xigrc"]
+[ext_resource type="PackedScene" uid="uid://ufie66t38fss" path="res://players/modules/health.tscn" id="9_2axl6"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r0w00"]
+friction = 0.0
+bounce = 0.7
+
+[node name="Canoe" type="RigidBody2D" groups=["Vehicles"]]
+collision_layer = 26
+collision_mask = 3
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_r0w00")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 4
+linear_damp = 1.5
+angular_damp = 2.0
+script = ExtResource("1_6xiqm")
+swim_vehicle = ExtResource("2_tla4j")
+canoe_element = ExtResource("3_uae4b")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-64, 4, -64, -4, -4, -32, 4, -32, 64, -4, 64, 4, 4, 32, -4, 32)
+
+[node name="Visuals" parent="." instance=ExtResource("2_kw7d4")]
+hide_sprite = false
+
+[node name="Physics" parent="." instance=ExtResource("3_ce73f")]
+
+[node name="Mover" type="Node2D" parent="."]
+script = ExtResource("5_38k5r")
+
+[node name="PaddleLeft" parent="Mover" instance=ExtResource("4_s1lbd")]
+
+[node name="PaddleRight" parent="Mover" instance=ExtResource("4_s1lbd")]
+is_right = true
+
+[node name="Feeler" parent="." instance=ExtResource("8_xigrc")]
+
+[node name="Health" parent="." instance=ExtResource("9_2axl6")]

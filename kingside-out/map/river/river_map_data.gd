@@ -6,13 +6,22 @@ var starting_index_offset := 1 # don't start at 0, as that puts us right on the 
 var finish_index_offset := 2 # also don't end at the very last element; place the finish slightly before it 
 
 func get_starting_positions(num:int) -> Array[Vector2]:
-	var starting_line := Line.new(gen.river_bank_left[starting_index_offset], gen.river_bank_right[starting_index_offset])
+	var starting_line := get_starting_line()
 	var arr : Array[Vector2] = []
 	for i in range(num):
 		# pretend there's a spot extreme left and extreme right; then skip them; this gets nicely centered positions
 		var pos = starting_line.interpolate(float(i+1) / float(num+2))
 		arr.append(pos)
 	return arr
+
+func get_start_extreme() -> Line:
+	return Line.new(gen.river_bank_left[0], gen.river_bank_right[0])
+
+func get_starting_line() -> Line:
+	return Line.new(gen.river_bank_left[starting_index_offset], gen.river_bank_right[starting_index_offset])
+
+func get_end_extreme() -> Line:
+	return Line.new(gen.river_bank_right[gen.count() - 1], gen.river_bank_left[gen.count() - 1])
 
 func get_finish_line() -> Line:
 	var num := gen.count() - 1 - finish_index_offset

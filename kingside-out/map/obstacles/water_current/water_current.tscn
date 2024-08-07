@@ -15,6 +15,8 @@ shader_parameter/scroll_speed = 0.5
 shader_parameter/arrow_tex = ExtResource("3_3440l")
 
 [node name="WaterCurrent" type="Area2D"]
+collision_layer = 0
+collision_mask = 8
 script = ExtResource("1_56uwo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

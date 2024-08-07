@@ -45,6 +45,7 @@ func get_positions_within(step_bounds:Bounds) -> Array[PossibleSpawnPoint]:
 			var max_radius_right : float = abs(final_width - width_right)
 			var last_point = null if arr.size() <= 0 else arr.back()
 			var spawn_point := PossibleSpawnPoint.new(offset_pos, vec, last_point, max_radius_left, max_radius_right)
+			spawn_point.river_index = (i-1) + ratio
 			arr.append(spawn_point)
 			
 	return arr
@@ -53,6 +54,12 @@ func get_positions_along_edges(step_bounds:Bounds) -> Array[PossibleSpawnPoint]:
 	var arr : Array[PossibleSpawnPoint] = []
 	arr += get_positions_along_edge(river_map_data.gen.river_bank_left, step_bounds)
 	arr += get_positions_along_edge(river_map_data.gen.river_bank_right, step_bounds)
+	return arr
+
+func get_positions_along_custom_lines(lines:Array[Line], step_bounds:Bounds) -> Array[PossibleSpawnPoint]:
+	var arr : Array[PossibleSpawnPoint] = []
+	for line in lines:
+		arr += get_positions_along_edge(line.as_array(), step_bounds)
 	return arr
 
 func get_positions_along_edge(edge:Array[Vector2], step_bounds:Bounds) -> Array[PossibleSpawnPoint]:
@@ -65,13 +72,16 @@ func get_positions_along_edge(edge:Array[Vector2], step_bounds:Bounds) -> Array[
 		
 		var ratio := 0.0
 		# keep jumping in random chunks until we've exhausted this line (arrived somewhere near/after P1)
-		# this has some "overdraw" (going further than needed), but that's fine
 		while ratio < 1.0:
 			var step_size := step_bounds.rand_float()
 			last_pos += step_size * vec.normalized()
+			ratio = (last_pos - edge[i-1]).length() / vec.length()
+			if ratio > 1.0:
+				break
 			
 			var last_point = null if arr.size() <= 0 else arr.back()
 			var sp := PossibleSpawnPoint.new(last_pos, vec, last_point)
+			sp.river_index = (i-1) + ratio
 			arr.append(sp)
-			ratio = (last_pos - edge[i-1]).length() / vec.length()
+			
 	return arr

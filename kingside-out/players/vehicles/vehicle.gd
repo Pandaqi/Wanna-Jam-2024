@@ -1,7 +1,5 @@
 class_name Vehicle extends RigidBody2D
 
-var has_finished := false
-
 @export var connected_players : Array[Player] = []
 
 @onready var feeler : ModuleFeeler = $Feeler
@@ -9,9 +7,12 @@ var has_finished := false
 @onready var physics : ModulePhysics = $Physics
 @onready var visuals : ModuleVehicleVisuals = $Visuals
 
+var has_finished := false
+
 signal driver_added(p:Player, side:Config.CanoeControlSide)
 signal driver_removed(p:Player)
 signal finished()
+signal killed()
 
 func activate():
 	visuals.activate(physics)
@@ -26,15 +27,19 @@ func remove_driver(p:Player) -> void:
 	connected_players.erase(p)
 	driver_removed.emit(p)
 
-func get_bounds() -> Rect2:
-	var max_size : float = max(Global.config.canoe_size.x, Global.config.canoe_size.y)
-	var pos := global_position
-	return Rect2(pos.x - 0.5*max_size, pos.y - 0.5*max_size, max_size, max_size)
-	
 func finish():
 	has_finished = true
 	finished.emit()
 
 func is_finished() -> bool:
 	return has_finished
-	
+
+func get_bounds() -> Rect2:
+	var max_size := 0.0
+	var pos := global_position
+	return Rect2(pos.x - 0.5*max_size, pos.y - 0.5*max_size, max_size, max_size)
+
+func kill() -> void:
+	physics.set_ghost(true)
+	killed.emit()
+	self.queue_free()

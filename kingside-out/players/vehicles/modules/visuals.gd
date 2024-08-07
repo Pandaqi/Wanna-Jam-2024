@@ -3,11 +3,16 @@ class_name ModuleVehicleVisuals extends Node2D
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var entity : Vehicle = get_parent()
 @export var player_sprite : PackedScene
+@export var hide_sprite := false
+@onready var anim_player : AnimationPlayer = $AnimationPlayer
 
 var driver_sprites : Array[Sprite2D] = []
 var body_size : Vector2
 
 func activate(p:ModulePhysics) -> void:
+	if hide_sprite: sprite.set_visible(false)
+	
+	p.ghost_changed.connect(on_ghost_changed)
 	p.size_changed.connect(on_size_changed)
 	entity.driver_added.connect(on_driver_added)
 	entity.driver_removed.connect(on_driver_removed)
@@ -45,3 +50,7 @@ func visualize_drivers() -> void:
 		temp_sprite.set_frame(4 + drivers[i].player_num)
 		temp_sprite.set_position(global_offset + i * offset_per_sprite)
 		
+
+func on_ghost_changed(val:bool) -> void:
+	if not val: anim_player.stop()
+	else: anim_player.play("ghost")

@@ -11,32 +11,28 @@
 
 ## Rowing Game
 
-TODO:
-* Figure out map layer order (now players are on top of plants, for example, and tutorials are hard to place well)
-* Add all the possible elements => they execute their change _themselves_, but let's just keep it in one big if-statement for now for simplicity
-  * Not only their data, also some simple sprite to already use
-* Finish areas
-  * Modulate decorations, maybe even rocks.
-  * Add the ground texture _around_ the river, also modulated? => Do a quick sketch in affinity to get the texture, but also correct colors for water+ground+everything
-  * Finish tutorial pole + fill with info from element data. (PICK FONTS)
-* Go to game over screen on finish => display ranking and winner, allow going again or going back
-  * All info (such as finish times) is in StateData shared resource
-* Get simple player login screen + key hints at start (in game itself!), to make the game TESTABLE
 
+ELEMENTS TO COMPLETE:
+* Piranha (but that can only be tested if I've made that system)
+
+AI/SINGLEPLAYER:
+* No, don't make an AI boat.
+* Instead, just have the ever-present threat of piranhas coming after you.
+  * These start at the very beginning and just follow the center line. (Ignoring rocks and stuff. Maybe even destroying them as they go.)
+  * But by converting elements (and pooping them out after you ...) you can distract them
+  * There are also certain elements that will just slow them down/set them back instantly.
+* Only include the Piranha powerup if piranhas are part of the game!
+  * Probably want to create a smaller selection of powerups _per run_ anyway. => The canoe one is always there, the piranha one always there if singleplayer, otherwise it's free.
+  * Don't include garbage as an area type
+
+POLISHING:
+* Make Input + GameOver look better
+* Provide actual buttons on GameOver
+* POWERUP: Extra health? Seems pretty useful now
 
 
 TEST:
 * Discrete canoe movement
-
-
-POSSIBLE ELEMENTS:
-* Grow/Shrink Canoe
-* More/Less Speed
-* Time Bonus/Penalty
-* Canoe Heavier/Lighter (but that might be too subtle for players)
-* Immunity from Rocks/Currents/Other boats
-* Explode all obstacles around you
-
 
 
 ## General
@@ -63,6 +59,15 @@ POSSIBLE ELEMENTS:
 
 ## Polishing
 
+* BOAT DESTRUCTION
+  * Maybe your canoe breaks apart into many elements, which are always helpful to other players?
+  * ONE of the elements that comes out is always a new canoe for you? (But then they must blast away quite a bit, randomly.)
+* ELEMENTS
+  * @DOUBT: Should they randomly be bad (their property flipped)? Or just always GOOD/POSITIVE as that's easier?
+  * Speed => should really make it more "forward" as well, and increase damping
+
+
+* Prevent insta-grabbing what comes out of broken rocks => give those elements an impulse too, _away_ from whatever broke the rock?
 * Prevent finished boats from going back into the route? (Just disable their movement entirely? A one-way wall? They can go back, but they just can't interact with anything anymore?)
 * Boat damage/health playing a role?
 * River bend bounds are allowed to be quite a bit higher
@@ -71,7 +76,6 @@ POSSIBLE ELEMENTS:
 * SPAWNING: Maybe add some _moving/more dynamic_ obstacles on the river => re-use the MonsterSpawner for this!
   * Piranhas I guess?
 * Probably want a wider/longer river on higher player count.
-* Background should probably be lighter and also textured a bit. => Place some gradient/texture DECORATIONS as well (much larger than current flowers, still at the edge)
 
 @IDEA: 
 * All garbage is just that: garbage. That's how you know it can be picked up and hasn't transformed yet. (Anything else has been the result of transformation.)
@@ -96,3 +100,15 @@ POSSIBLE ELEMENTS:
   * Also immediately add debug radius for the monsters for when they'll pick up Elements to walk towards => I've learned how useful that is.
 
 @IDEA: _Currents_ in the water could push and pull monsters in certain directions. (Maybe your _boat_ creates those currents?)
+
+
+
+## Collision Layers
+
+1 = World Bounds
+2 = Rocks
+3 = Elements + Else (this layer is used by the feeler on the canoe)
+4 = Currents (need player to be on layer 4 to scan and pick them up in Area)
+5 = Finish (similarly, need player to be on layer 5 to scan and pick them up)
+
+When the player becomes ghost, they are taken out of layer 2 and 4. They still scan layers themselves, though, such as layer 1, to stay within bounds.

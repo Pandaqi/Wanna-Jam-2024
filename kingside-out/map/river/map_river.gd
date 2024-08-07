@@ -8,10 +8,21 @@ var river_subdivider : RiverSubdivider
 @export var map_data : RiverMapData
 @export var finish_line_scene : PackedScene
 @onready var bodies : Node2D = $Bodies
-@onready var water_texture : Node2D = $WaterTexture
-@onready var areas : Node2D = $Areas
+@onready var water_texture : Node2D = $Layers/Water/WaterTexture
+@onready var areas : Node2D = $Layers/Water/Areas
+
+@onready var layers : Dictionary = {
+	"bottom": $Layers/Bottom,
+	"water": $Layers/Water,
+	"elements": $Layers/Elements,
+	"players": $Layers/Players,
+	"decoration": $Layers/Decoration,
+	"top": $Layers/Top
+}
 
 func activate() -> void:
+	GSignalBus.place_on_map.connect(on_placement_requested)
+	
 	river_generator = RiverGenerator.new()
 	river_subdivider = RiverSubdivider.new()
 	
@@ -29,13 +40,10 @@ func regenerate() -> void:
 	create_finish()
 
 func _draw() -> void:
+	var brown_color := Color(150/255.0, 75/255.0, 0)
 	draw_polyline(river_generator.river_center, Color(0,0,0), 3.0, false)
-	draw_polyline(river_generator.river_bank_left, Color(1,0,0), 3.0, false)
-	draw_polyline(river_generator.river_bank_right, Color(1,0,0), 3.0, false)
-
-func _input(ev:InputEvent) -> void:
-	if ev.is_action_released("ui_accept"):
-		regenerate()
+	draw_polyline(river_generator.river_bank_left, brown_color, 16.0, false)
+	draw_polyline(river_generator.river_bank_right, brown_color, 16.0, false)
 
 func create_line_colliders() -> void:
 	for body in bodies.get_children():
@@ -73,7 +81,6 @@ func create_areas() -> void:
 		var a = area_drawer_scene.instantiate()
 		areas.add_child(a)
 		a.update(area)
-	
 
 func create_finish() -> void:
 	var s = finish_line_scene.instantiate()
@@ -81,3 +88,9 @@ func create_finish() -> void:
 	
 	var fl := map_data.get_finish_line()
 	s.update(fl)
+
+func on_placement_requested(obj, layer:String) -> void:
+	add_to_layer(obj, layer)
+
+func add_to_layer(obj, layer:String) -> void:
+	layers[layer].add_child(obj)
