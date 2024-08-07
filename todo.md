@@ -1,8 +1,6 @@
 
 # To-Do
 
-* **Tuesday:** I want the rowing version finished, including solid reusable modules for the other modes.
-* **Wednesday:** Finish all components to close the core loop of the castle version.
 * **Tuesday:** Try all rules tweaks, different configurations, extra ideas.
 * **Friday:** Once we know what's needed, create the visuals + sound fx + everything for it.
 * **Saturday:** Rest day. (Possibly playtest.)
@@ -11,16 +9,35 @@
 
 ## Rowing Game
 
+CRASHING BUG (PROBABLY FIXED NOW): When switching in/out of canoe => probably when players hit each other, perhaps with the yellow one
 
-AI/SINGLEPLAYER:
-* Properly scale the piranha areas. (My current settings are fine, so recreate them through config scalars)
+
+GRAPHICS:
+* Piranhas
+* Actual canoes
+* Details to all the existing sprites
+* (Some other decoration sprites for variation?)
+* Prettier UI and buttons
+* Prettier Health bar
 
 POLISHING:
+* BUG: Explosion particles don't show up?
+* ACTUALLY EXPLAIN THE MAIN THING
+  * Move by paddling left/right
+  * If you pick up garbage, the current area type is spit out a moment later. These are usually _good_ to pick up.
+  * If you lose all your health, your canoe breaks and you have to swim---which is usually worse. Once you catch your Canoe powerup, however, you get it back.
+  * Race to the finish. Best time wins!
 * Make Input + GameOver look better
+* Make elements a little more noticeable => add BORDER around them? At least more DETAILS and CONTRAST.
 * Provide actual buttons on GameOver
-* POWERUP: Extra health? Seems pretty useful now
-
-
+* POWERUP: Extra health? Seems pretty useful now. (More useful than the mass changer or something.)
+  * With how quickly/often canoes break, though, how useful is it really? Maybe extra health + temporary shield?
+* BOOST: show on the canoe (of last player) that they're being boosted. (Also destroy stuff in their immediate surroundings to make sure they get unstuck?)
+* SPAWNING: Maybe add some _moving/more dynamic_ obstacles on the river => re-use the MonsterSpawner for this! => Piranhas I guess?
+  * Yes, we can have one obstacle that simply moves, but doesn't hurt.
+  * And one that actively chases you, like piranhas, but you can defeat it somehow?
+* Some EXTRA SPICE for swimming players. (Maybe you're not allowed to finish without canoe, but then we'd need another rule to ensure you always get your canoe back _eventually_.)
+* Perhaps _link_ your Canoe Element to you specifically, so only _you_ can pick it up?
 
 
 ## General
@@ -50,12 +67,8 @@ TEST:
 
 ## Polishing
 
-* Prevent insta-grabbing what comes out of broken rocks => give those elements an impulse too, _away_ from whatever broke the rock?
-* Prevent finished boats from going back into the route? (Just disable their movement entirely? A one-way wall? They can go back, but they just can't interact with anything anymore?)
-* BOOST: show on the canoe (of last player) that they're being boosted. (Also destroy stuff in their immediate surroundings to make sure they get unstuck?)
-* SPAWNING: Maybe add some _moving/more dynamic_ obstacles on the river => re-use the MonsterSpawner for this!
-  * Piranhas I guess?
-* Probably want a wider/longer river on higher player count.
+
+
 
 @IDEA: 
 * All garbage is just that: garbage. That's how you know it can be picked up and hasn't transformed yet. (Anything else has been the result of transformation.)
@@ -79,7 +92,7 @@ TEST:
 * It _randomly selects_ from monsters that are available, until it gets a _total value_ equal to _strength_. (With slight margin for error, otherwise we remove the last added option and pick the "friendlier version" of the wave.)
   * Also immediately add debug radius for the monsters for when they'll pick up Elements to walk towards => I've learned how useful that is.
 
-@IDEA: Maybe your _boat_ could create some of the currents.
+@IDEA: Maybe your _boat_ could create some of the currents. (Whenever you do X, or you make a really sharp/fast turn, it leaves behind a current imprint?)
 
 
 ## Collision Layers

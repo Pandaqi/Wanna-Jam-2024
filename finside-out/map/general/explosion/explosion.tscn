@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://bacfkl3u07sxr"]
+
+[ext_resource type="Script" path="res://map/general/explosion/explosion.gd" id="1_esgpc"]
+[ext_resource type="Texture2D" uid="uid://db33gmfpidewc" path="res://icon.svg" id="2_2rqya"]
+
+[sub_resource type="Curve" id="Curve_ydasf"]
+_data = [Vector2(0, 0.542074), 0.0, 0.0, 0, 0, Vector2(0.104592, 1), 0.0, 0.0, 0, 0, Vector2(0.997449, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_g5lxv"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2i4he"]
+radius = 512.0
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_esgpc")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 48
+lifetime = 0.7
+explosiveness = 0.75
+lifetime_randomness = 1.0
+texture = ExtResource("2_2rqya")
+emission_shape = 1
+emission_sphere_radius = 128.0
+gravity = Vector2(0, 0)
+angle_max = 360.0
+scale_amount_min = 0.2
+scale_amount_max = 0.4
+scale_amount_curve = SubResource("Curve_ydasf")
+color_ramp = SubResource("Gradient_g5lxv")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 31
+collision_mask = 31
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_2i4he")

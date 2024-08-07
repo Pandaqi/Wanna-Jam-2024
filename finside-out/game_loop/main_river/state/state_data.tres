@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="StateData" load_steps=3 format=3 uid="uid://cojv6ts84vrde"]
+
+[ext_resource type="Resource" uid="uid://cudbqplakte1q" path="res://players/players_data.tres" id="1_plueh"]
+[ext_resource type="Script" path="res://game_loop/main_river/state/state_data.gd" id="1_q4j33"]
+
+[resource]
+script = ExtResource("1_q4j33")
+players_data = ExtResource("1_plueh")

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ElementData" load_steps=2 format=3 uid="uid://crxwcwg7m1kok"]
+
+[ext_resource type="Script" path="res://map/elements/element_data.gd" id="1_dfj2m"]
+
+[resource]
+script = ExtResource("1_dfj2m")
+frame = 4
+processed = true
+color = Color(0.796078, 0.333333, 0.945098, 1)
+desc = "Pauses the piranhas (temporarily)."
+required = false
+forbidden = true
+speed_change = 1.0
+time_change = 0.0
+size_change = 1.0
+mass_change = 1.0
+make_ghost = false
+piranha_change = 5.0
+explode = false
+piranha_interested = true

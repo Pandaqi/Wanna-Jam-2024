@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccbukfd4biu58"]
+
+[ext_resource type="Script" path="res://map/obstacles/rocks/rocks.gd" id="1_33ko1"]
+[ext_resource type="PackedScene" uid="uid://v3duygxcvqa4" path="res://game_loop/main_river/misc.tscn" id="2_nvxmj"]
+[ext_resource type="PackedScene" uid="uid://c2mcyn0hv0t6v" path="res://map/general/water_ripples/water_ripples.tscn" id="2_p6ysw"]
+[ext_resource type="PackedScene" uid="uid://ufie66t38fss" path="res://players/modules/health.tscn" id="4_kyqc8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a4cad"]
+
+[node name="Rocks" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_33ko1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_a4cad")
+
+[node name="WaterRipples" parent="." instance=ExtResource("2_p6ysw")]
+
+[node name="Sprite2D" parent="." instance=ExtResource("2_nvxmj")]
+frame = 2
+
+[node name="Health" parent="." instance=ExtResource("4_kyqc8")]

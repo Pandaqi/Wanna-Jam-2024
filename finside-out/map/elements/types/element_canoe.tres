@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ElementData" load_steps=2 format=3 uid="uid://dl4f2ywwpo0jd"]
+
+[ext_resource type="Script" path="res://map/elements/element_data.gd" id="1_wachh"]
+
+[resource]
+script = ExtResource("1_wachh")
+frame = 6
+processed = true
+color = Color(1, 0.713726, 0.227451, 1)
+desc = "Changes your canoe size. If swimming, gives you a canoe."
+required = true
+forbidden = false
+speed_change = 1.0
+time_change = 0.0
+size_change = 1.125
+mass_change = 1.0
+make_ghost = false
+piranha_change = 1.0
+explode = false
+piranha_interested = true

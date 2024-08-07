@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsr7l2t7ofrvm"]
+
+[ext_resource type="Script" path="res://map/decorations/ground_texture.gd" id="1_tue8b"]
+[ext_resource type="PackedScene" uid="uid://v3duygxcvqa4" path="res://game_loop/main_river/misc.tscn" id="2_7xgdm"]
+
+[node name="GroundTexture" type="Node2D"]
+script = ExtResource("1_tue8b")
+
+[node name="Sprite2D" parent="." instance=ExtResource("2_7xgdm")]
+frame = 4

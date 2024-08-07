@@ -147,19 +147,83 @@ But ... trying to do all this in _the same project_ was a bit of a bad idea. At 
 
 As such, after ~2 days of work, I started a fresh Godot project to implement the basic skeleton of the "Inside Sprout" idea.
 
-@TODO: Continue
+### But first! A playtest
+
+I managed to snatch two people for a quick playtest of the current start of the game. And I guess this is another example (one of many) of why it's important to let others see your stuff and make a judgment, because you---the creator---just can't see it clearly.
+
+They loved it.
+
+It's extremely easy to pick up and play, yet it's challenging in the right way. The rivers look beautiful and you actually grow more skillful over time. This game turned out to be _far better_ than my feeling of "it's a bit meh and messy".
+
+Similarly, the addition of the piranha nipping at your heels (in single player mode) also just ... works really well? Perhaps because it's a clearly defined track and it's easy for me to let the piranha follow and chase you (in a fun, somewhat realistic way).
+
+Of course, there was the usual list of issues.
+
+* There was not enough margin at the edge of the screen. So when players were far apart, and you were zoomed out pretty far, the player(s) in last place couldn't see what they were doing at all!
+  * I simply have a variable `screen_edge_margin` that can be bumped up. And I realized I forgot to calculate the proper bounds for players---it merely used their center point for zooming the camera, which obviously doesn't work well because the canoes are bigger than that.
+  * I also added a check that players can't be too far apart in terms of _progress along the river_. If you're >10 segments behind the leader, you get a boost, and that also helps the camera stay more zoomed in as the players are closer together.
+* I only check whether you should pick up/interact with something when it enters your area. (Far less expensive than checking _every frame_.) However, when you drop an element, it is temporarily an "exception" with yourself (for ~0.7s) to prevent picking it up immediately after dropping. But this means that the `area_enter` signal might not fire, because the element has been inside the area all along, but it was an exception!
+  * The fix is to send a signal when this exception runs out, and then _recheck_ the bodies.
+* In one test game, we had a _crazy_ bend in the river with 4+ currents traveling through each other. Players struggled to the point of getting frustrated :p
+  * The fix, of course, is to check if currents overlap during placement, then remove the offending ones.
+* Finally, and most crucially, there was a **recurrent crash**. It seemed to happen whenever players transitioned from canoe->swimming, or when they bumped into each other. What was the issue?
+  * When they do this transition, there's a frame of delay. 
+  * Why? You can't change physics bodies _while the physics are calculating collisions_. Instead, when the bodies interact, and damage is dealt, and their canoe breaks ... this procedure (canoe -> swimming) is _planned_ for the end of this frame.
+  * In the mean time, stuff may happen. For example, they might have accidentally transitioned while overlapping an element drifting around.
+  * By the time they make the switch ... that element they overlapped, might already be gone!
+  * So now the code is dealing with invalid / null references, and it crashes!
+  * The fix is to check if the objects needed are still available and as they should be when the code executes. (There is no cleaner solution. Simulated physics are simply a bit messy and I've learned to just do a few extra checks and add some more safeguards.)
+
+A bit technical, perhaps, but it's just to illustrate the kinds of issues that come up now and how I solved them.
+
+With that done, the game was completely unpolished (missing icons, no sound effects, etcetera), but it was actually a really fun game to play. And, as per my personal challenge, I devoted a plenty of time to making that river look visually stunning (which mostly meant learning some more shader magic/tricks). Okay, stunning is a big word, it just looks better than I expected a randomly generated curvy-river-line to look, okay?
+
+If all else fails, I can add all this polish in a day or so, and make this my submission.
+
+That said, let's look at that other idea.
+
+## Step 2: Continue with something completely different
+
+The next "simplest" idea was the Inside Sprout. That's really a simplification of Kingside Out.
+
+On the third day, I woke up early and churned through the basic components needed for it. A few hours of non-stop coding, making files and folders, connecting stuff, creating Resources and classes for different things I'll probably need. I've mostly stopped connecting or doing things in the _editor_, prefering to handle it all through code. This way, I can copy-paste files to other projects and nothing is broken, because a certain connection (such as a signal listener) wasn't saved in the _editor_ instead.
+
+{{% remark %}}
+By the way, I'm doing all these jams during a (mostly self-proclaimed) summer holiday. Normally, I'd have my "more important" work to do first. I wouldn't be able to devote this much time to it, in fact, I don't recall ever having the energy to do a single game jam while not on some kind of break/holiday.
+{{% /remark %}}
+
+What were those components? (Yes, I was making this list the evening before to simply get my own specific to-do list for tomorrow.)
+
+* Map
+  * Some way to spawn, manage, check _areas_. (The area player A is in, determines what player B drops. And which area is _inside_/_outside_, of course.)
+  * Some way to spawn and manage _elements_.
+  * Some way to spawn and manage _monsters_. (In waves, increasing difficulty, random positions screen edge.)
+  * The "Heart". (Something that must be protected, takes damage, game over if destroyed.)
+* Monster Logic
+  * General movement Resource: Drawn to nearby elements they "desire". Otherwise walk to your Heart. If they hit it, take damage.
+  * General type Resource: other properties, which frame of spritesheet to display, etcetera
+* Player Logic
+  * Movement (with a swappable module for _how_ exactly they move, because I'm not sure yet)
+  * The chain for "pick up element(s) > convert > drop converted"
+* State/Progression
+  * The thing that manages how far you've come, when it's game start/game over, which rules are unlocked
+
+At this point, I still hadtwo major questions left:
+
+* What's the significance of inside/outside? What is the real difference and challenge from controlling two characters, one of whom is "inside"?
+* What's the theme or map layout? Painting colored circles on a flat solid floor will not look or feel great ...
 
 
 
-## Step 1: Make what we'll surely need
+
 
 I see a few components that we'll need regardless of the game idea.
 
 * RowingBoat movement/mechanics
 * Converter (Element goes in, wait a while, something else is dropped)
-* MonsterSpawner (in waves, increasing difficulty, random positions screen edge)
+* MonsterSpawner 
 * ElementSpawner (just spawn randomly, not too close to players, with min/max restrictions)
-* Heart (something that must be protected, takes damage, game over if destroyed)
+* Heart 
 * Player / Monster / Element objects
   * Player = listens to player input, otherwise reuses the same modules as everyone else
   * Monster = has some type resource, movement resource, attracted to closest elements
@@ -174,11 +238,3 @@ I decided to make all of these first, and then see where we were and how I felt 
 Now we combine the elements for the first time to get our first prototype: monsters move in, we row around converting stuff, and we must survive.
 
 @TODO
-
-We can also create a slightly different prototype with just the rowing.
-
-* First, just create a race in a straight line, start to finish. The main challenge is timing your inside/outside rows well, but you still convert stuff too. (Which other players or yourself can then pick up for a certain bonus or not.) And, of course, there could be rocks or whatever placed on the parcours, and water currents.
-* Then, for extra challenge, randomly draw a path, and turn it into a curved race.
-
-
-

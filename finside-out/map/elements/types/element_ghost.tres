@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ElementData" load_steps=2 format=3 uid="uid://daerfkrnu5su0"]
+
+[ext_resource type="Script" path="res://map/elements/element_data.gd" id="1_6wt4x"]
+
+[resource]
+script = ExtResource("1_6wt4x")
+frame = 3
+processed = true
+color = Color(0.333333, 0.482353, 0.945098, 1)
+desc = "Temporarily makes you pass through all objects."
+required = false
+forbidden = false
+speed_change = 1.0
+time_change = 0.0
+size_change = 1.0
+mass_change = 1.0
+make_ghost = true
+piranha_change = 1.0
+explode = false
+piranha_interested = true

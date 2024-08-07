@@ -1,6 +1,0 @@
-[gd_resource type="Resource" script_class="StateData" load_steps=2 format=3 uid="uid://cojv6ts84vrde"]
-
-[ext_resource type="Script" path="res://game_loop/main_river/state/state_data.gd" id="1_q4j33"]
-
-[resource]
-script = ExtResource("1_q4j33")

@@ -1,0 +1,47 @@
+[gd_scene load_steps=10 format=3 uid="uid://cka8y3k1auqeb"]
+
+[ext_resource type="Script" path="res://players/vehicles/swim/vehicle_swim.gd" id="1_pf2bp"]
+[ext_resource type="PackedScene" uid="uid://bak3euftf42lh" path="res://players/vehicles/modules/visuals.tscn" id="2_dqwci"]
+[ext_resource type="PackedScene" uid="uid://w47q3r32a4uk" path="res://players/vehicles/modules/physics.tscn" id="3_ra6l6"]
+[ext_resource type="Script" path="res://map/elements/element_data.gd" id="5_tmvdr"]
+[ext_resource type="Script" path="res://players/vehicles/swim/swim_mover.gd" id="5_y5e76"]
+[ext_resource type="Resource" uid="uid://dl4f2ywwpo0jd" path="res://map/elements/types/element_canoe.tres" id="6_aa3qi"]
+[ext_resource type="PackedScene" uid="uid://bi5eujdwlmsk5" path="res://players/vehicles/modules/feeler.tscn" id="6_s252e"]
+[ext_resource type="Texture2D" uid="uid://3320cnwq33g7" path="res://map/obstacles/water_current/arrow.webp" id="8_km27w"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r0w00"]
+friction = 0.0
+bounce = 0.7
+
+[node name="VehicleSwim" type="RigidBody2D" groups=["Vehicles"]]
+collision_layer = 26
+collision_mask = 3
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_r0w00")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 4
+linear_damp = 1.0
+angular_damp = 1.0
+script = ExtResource("1_pf2bp")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-5, 0, 0, -5, 5, 0, 0, 5)
+
+[node name="Visuals" parent="." instance=ExtResource("2_dqwci")]
+
+[node name="Physics" parent="." instance=ExtResource("3_ra6l6")]
+base_scale_factor = Vector2(0.5, 1)
+base_mass_factor = 0.5
+
+[node name="Feeler" parent="." instance=ExtResource("6_s252e")]
+accepted_types = Array[ExtResource("5_tmvdr")]([ExtResource("6_aa3qi")])
+
+[node name="Mover" type="Node2D" parent="."]
+script = ExtResource("5_y5e76")
+
+[node name="Arrow" type="Sprite2D" parent="Mover"]
+top_level = true
+position = Vector2(193, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("8_km27w")
