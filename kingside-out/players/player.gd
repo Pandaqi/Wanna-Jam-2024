@@ -2,6 +2,7 @@ class_name Player extends Node2D
 
 var player_num := -1
 var finished := false
+var dead := false
 
 @onready var input : ModuleInput = $Input
 @onready var vehicle_manager : ModuleVehicleManager = $VehicleManager
@@ -27,3 +28,7 @@ func on_finished() -> void:
 	finished = true
 	GSignalBus.player_finished.emit(player_num)
 	print("PLAYER " + str(player_num) + "HAS FINISHED!")
+
+func kill() -> void:
+	dead = true
+	GSignalBus.player_killed.emit(player_num)

@@ -43,3 +43,7 @@ func kill() -> void:
 	physics.set_ghost(true)
 	killed.emit()
 	self.queue_free()
+
+func kill_drivers() -> void:
+	for p in connected_players:
+		p.kill()

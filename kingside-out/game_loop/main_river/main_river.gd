@@ -7,6 +7,7 @@ extends Node2D
 @onready var piranhas : Piranhas = $Piranhas
 
 func _ready() -> void:
+	element_spawner.preactivate()
 	state.activate()
 	map.activate()
 	element_spawner.activate()

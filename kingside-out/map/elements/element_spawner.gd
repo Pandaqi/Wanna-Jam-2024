@@ -9,7 +9,40 @@ class_name ElementSpawner extends Node2D
 @export var map_data : RiverMapData
 
 @export var element_garbage : ElementData
+@export var element_piranha : ElementData
 @export var explosion_scene : PackedScene
+
+func preactivate() -> void:
+	determine_included_types()
+
+func determine_included_types() -> void:
+	var all_types := spawner.all_elements.duplicate(false)
+	var types_picked : Array[ElementData] = []
+	
+	# include the required types (must be present in all runs)
+	for i in range(all_types.size()-1, -1, -1):
+		if not all_types[i].required: continue
+		types_picked.append(all_types[i])
+		all_types.remove_at(i)
+	
+	# remove the forbidden types (they have some other functionality but do NOT randomly spawn)
+	for i in range(all_types.size()-1, -1, -1):
+		if not all_types[i].forbidden: continue
+		all_types.remove_at(i)
+	
+	# the piranha is only included if, of course, the piranha itself is
+	var include_piranha := GInput.get_player_count() <= 1
+	if include_piranha:
+		types_picked.append(element_piranha)
+	
+	# then fill up randomly until satisfied
+	var num_types := Global.config.num_unique_element_types.rand_int()
+	while types_picked.size() < num_types:
+		var new_type = all_types.pick_random()
+		types_picked.append(new_type)
+		all_types.erase(new_type)
+	
+	spawner.available_elements = types_picked
 
 func activate() -> void:
 	GSignalBus.drop_element.connect(on_element_drop)
@@ -87,7 +120,7 @@ func spawn_object(scene:PackedScene, spawn_point:PossibleSpawnPoint) -> Node2D:
 func on_element_drop(sp:PossibleSpawnPoint) -> Node2D:
 	
 	if not sp.type_elem:
-		sp.type_elem = spawner.all_elements.pick_random()
+		sp.type_elem = spawner.available_elements.pick_random()
 	
 	if Global.config.area_determines_drop_type and not sp.type_forced:
 		var idx_of_pos = map_data.get_index_closest_to(sp.pos, -1)

@@ -27,6 +27,24 @@ func get_finish_line() -> Line:
 	var num := gen.count() - 1 - finish_index_offset
 	return Line.new(gen.river_bank_right[num], gen.river_bank_left[num])
 
+func get_max_index() -> int:
+	return gen.count() - 1
+
+# @TODO: prevent repetition, make "get exact point left/right at idx" a reusable function on RiverGenerator?
+func get_perpendicular_line_at_index(idx:float) -> Line:
+	var idx_int : int = floor(idx)
+	var fraction : float = idx - idx_int
+	
+	var p0_left := gen.river_bank_left[idx_int]
+	var p1_left := gen.river_bank_left[idx_int + 1]
+	var p_left := p0_left + fraction * (p1_left - p0_left)
+	
+	var p0_right := gen.river_bank_right[idx_int]
+	var p1_right := gen.river_bank_right[idx_int + 1]
+	var p_right := p0_right + fraction * (p1_right - p0_right)
+	
+	return Line.new(p_left, p_right)
+
 # @NOTE: If a boat is at index "1", it means the closest track point _behind us_ has index 1
 # Another Example: If at "1.5" it means we're halfway between points 1 and 2 on the center line
 func get_index_closest_to(pos:Vector2, start_from:int = -1) -> float:

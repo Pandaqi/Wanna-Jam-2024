@@ -26,3 +26,6 @@ func get_ortho() -> Vector2:
 
 func as_array() -> PackedVector2Array:
 	return [start, end]
+
+func rand_point() -> Vector2:
+	return start + randf() * vec

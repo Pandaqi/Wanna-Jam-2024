@@ -6,6 +6,8 @@ class_name ElementData
 @export var processed := true
 @export var color := Color(1,1,1)
 @export var desc := ""
+@export var required := false
+@export var forbidden := false
 
 @export_subgroup("Effects")
 @export var speed_change := 1.0
@@ -15,6 +17,7 @@ class_name ElementData
 @export var make_ghost := false
 @export var piranha_change := 1.0
 @export var explode := false
+@export var piranha_interested := false
 
 func execute(eg:ModuleElementGrabber) -> void:
 	var player := eg.entity

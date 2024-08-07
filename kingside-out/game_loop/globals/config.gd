@@ -24,7 +24,7 @@ var river_bend_change_bounds := Bounds.new(8.0, 15.0) # the river will keep bend
 
 #@export_subgroup("Obstacles")
 var water_current_radius := Bounds.new(0.125, 0.225) # ~map_size
-var water_current_strength := Bounds.new(20.0, 25.0) # ~canoe_mass * power
+var water_current_strength := Bounds.new(24.0, 32.5) # ~canoe_mass * power
 var water_current_step_bounds := Bounds.new(0.2, 0.5)
 @export var water_current_scroll_speed := 0.5
 @export var water_current_shader_scale := 1.75
@@ -43,6 +43,7 @@ var decoration_scale_bounds := Bounds.new(0.7, 1.5) # ~step_bounds
 var tutorial_size := 0.175 # ~map_size
 
 #@export_subgroup("Elements")
+var num_unique_element_types := Bounds.new(4, 5)
 var element_step_bounds := Bounds.new(0.3, 0.6)
 var element_drop_push_force_bounds := Bounds.new(0.275, 0.375) # ~map_size
 var element_drop_forbidden_angle := 0.5 * PI # they always go to the side or backward
@@ -92,6 +93,11 @@ enum CanoeControlSide
 @export var canoe_destroyed_drops_random_elements := 0
 
 @export var swim_vehicle_power := 2.0
+
+#
+# PIRANHA
+#
+var piranha_speed_bounds := Bounds.new(0.1, 0.15) # ~map_size
 
 #
 # SPECIAL EFFECTS / ELEMENTS

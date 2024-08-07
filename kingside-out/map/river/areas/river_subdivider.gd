@@ -6,14 +6,23 @@ var area_indices : Array[int] = [] # links the index of a point on the river to 
 func apply(gen:RiverGenerator, spawner:MapSpawnerRiver):
 	var cur_area : RiverArea = null
 	var desired_area_size := 0
+	var prev_type : ElementData = null
 	for i in range(gen.count() - 1):
 		
 		# start a new area if needed
 		if not cur_area:
-			var type = spawner.all_elements.pick_random()
+			var rand_idx = randi() % spawner.available_elements.size()
+			var type = spawner.available_elements[rand_idx]
+			
+			# never do the same type twice in a row; just pick the next one if so
+			if type == prev_type:
+				rand_idx = (rand_idx + 1) % spawner.available_elements.size()
+				type = spawner.available_elements[rand_idx]
+			
 			desired_area_size = Global.config.area_size_bounds.rand_int()
 			cur_area = RiverArea.new(type)
 			areas.append(cur_area)
+			prev_type = type
 		
 		# fill it with the current polygon
 		var poly : PackedVector2Array = [

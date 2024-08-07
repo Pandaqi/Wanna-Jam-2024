@@ -12,18 +12,8 @@
 ## Rowing Game
 
 
-ELEMENTS TO COMPLETE:
-* Piranha (but that can only be tested if I've made that system)
-
 AI/SINGLEPLAYER:
-* No, don't make an AI boat.
-* Instead, just have the ever-present threat of piranhas coming after you.
-  * These start at the very beginning and just follow the center line. (Ignoring rocks and stuff. Maybe even destroying them as they go.)
-  * But by converting elements (and pooping them out after you ...) you can distract them
-  * There are also certain elements that will just slow them down/set them back instantly.
-* Only include the Piranha powerup if piranhas are part of the game!
-  * Probably want to create a smaller selection of powerups _per run_ anyway. => The canoe one is always there, the piranha one always there if singleplayer, otherwise it's free.
-  * Don't include garbage as an area type
+* Properly scale the piranha areas. (My current settings are fine, so recreate them through config scalars)
 
 POLISHING:
 * Make Input + GameOver look better
@@ -31,8 +21,6 @@ POLISHING:
 * POWERUP: Extra health? Seems pretty useful now
 
 
-TEST:
-* Discrete canoe movement
 
 
 ## General
@@ -55,23 +43,15 @@ TEST:
       * You can choose your "game mode"? "Teams" (two people in the same boat, controlling only one paddle of it) or "Solo" (everyone in their own boat, controlling both paddles) => At least _implement both_
   * @IDEA: Also allow up/down keys to move the _other player_, so you can control both players even with a single hand?
 
+TEST:
+* Discrete canoe movement
+
 
 
 ## Polishing
 
-* BOAT DESTRUCTION
-  * Maybe your canoe breaks apart into many elements, which are always helpful to other players?
-  * ONE of the elements that comes out is always a new canoe for you? (But then they must blast away quite a bit, randomly.)
-* ELEMENTS
-  * @DOUBT: Should they randomly be bad (their property flipped)? Or just always GOOD/POSITIVE as that's easier?
-  * Speed => should really make it more "forward" as well, and increase damping
-
-
 * Prevent insta-grabbing what comes out of broken rocks => give those elements an impulse too, _away_ from whatever broke the rock?
 * Prevent finished boats from going back into the route? (Just disable their movement entirely? A one-way wall? They can go back, but they just can't interact with anything anymore?)
-* Boat damage/health playing a role?
-* River bend bounds are allowed to be quite a bit higher
-* Add the option of displaying a progress bar to the health module.
 * BOOST: show on the canoe (of last player) that they're being boosted. (Also destroy stuff in their immediate surroundings to make sure they get unstuck?)
 * SPAWNING: Maybe add some _moving/more dynamic_ obstacles on the river => re-use the MonsterSpawner for this!
   * Piranhas I guess?
@@ -99,8 +79,7 @@ TEST:
 * It _randomly selects_ from monsters that are available, until it gets a _total value_ equal to _strength_. (With slight margin for error, otherwise we remove the last added option and pick the "friendlier version" of the wave.)
   * Also immediately add debug radius for the monsters for when they'll pick up Elements to walk towards => I've learned how useful that is.
 
-@IDEA: _Currents_ in the water could push and pull monsters in certain directions. (Maybe your _boat_ creates those currents?)
-
+@IDEA: Maybe your _boat_ could create some of the currents.
 
 
 ## Collision Layers

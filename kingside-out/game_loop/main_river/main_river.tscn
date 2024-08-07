@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://brf6bx615ewe5"]
+[gd_scene load_steps=33 format=3 uid="uid://brf6bx615ewe5"]
 
 [ext_resource type="Script" path="res://map/river/map_river.gd" id="1_0gj85"]
 [ext_resource type="Script" path="res://game_loop/main_river/main_river.gd" id="1_7xv6r"]
@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://bacfkl3u07sxr" path="res://map/general/explosion/explosion.tscn" id="19_8jt16"]
 [ext_resource type="Script" path="res://players/piranhas/piranhas.gd" id="22_kbww8"]
 [ext_resource type="Script" path="res://ui/game_over/results.gd" id="26_lprc3"]
+[ext_resource type="PackedScene" uid="uid://en2g1lpeqfat" path="res://players/piranhas/piranha.tscn" id="26_n5giw"]
 [ext_resource type="PackedScene" uid="uid://duayx8qhsg4hr" path="res://ui/game_over/result_player.tscn" id="27_bs5ji"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_x7uqa"]
@@ -128,6 +129,8 @@ map_data = ExtResource("2_ydrg4")
 
 [node name="Piranhas" type="Node2D" parent="."]
 script = ExtResource("22_kbww8")
+map_data = ExtResource("2_ydrg4")
+piranha_scene = ExtResource("26_n5giw")
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 process_mode = 3

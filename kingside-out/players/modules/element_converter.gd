@@ -17,7 +17,7 @@ func process_element(ed:ElementData):
 	
 	await timer.timeout
 	
-	var new_data = spawner.all_elements.pick_random()
+	var new_data = spawner.available_elements.pick_random()
 	if Global.config.area_determines_drop_type:
 		new_data = river_tracker.get_current_area().type
 	on_process_complete(new_data)

@@ -133,11 +133,21 @@ In practice, this meant the following.
   * These piranhas don't move around like the player. They just follow the predetermined river path, point to point, ignoring any obstacles.
   * BUT they can be distracted by the elements you drop. 
 
+As usual, trying to "power through" and generating more and more ideas and solutions _does_ lead to some better gameplay. 
+
+For example, at first you could just move freely if you landed in the water. (You could use all four arrow keys.) After trying a bunch of different movement patterns, however, I found one that still only uses those two buttons _and_ is slightly harder than the canoe but not _too hard_. 
+
+Similarly, I tested the rule that "once you've fallen in the water, you can only pick up a canoe, and none of the other powerups" and "when your canoe breaks, the _canoe element_ always shoots out of it, so you _always_ have a quick way to get back in a canoe (if you chase it)". Both of these are just a simple toggle in the code, but once turned on the gameplay immediately felt friendlier and nicer.
+
+Just trying a bunch of stuff helped me end up at a much better solution for what to do. That's nice, but it can't solve the fact that the game is a bit directionless at its core.
+
 Many of these things are mechanics I needed to code for the other ideas anyway. (Moving from land to water (in/out boat), entities being distracted by closest element, etcetera.)
 
 But ... trying to do all this in _the same project_ was a bit of a bad idea. At this point, I just assumed the current project was entirely for the _rowing idea_, and would start a new one (copying over whatever was needed) for the others. I _could_ have put all files in unique folders per game prototype, but that would just mean endless folders, with one big _shared_ folder that was even messier, and it was all just a bit meh.
 
+As such, after ~2 days of work, I started a fresh Godot project to implement the basic skeleton of the "Inside Sprout" idea.
 
+@TODO: Continue
 
 
 

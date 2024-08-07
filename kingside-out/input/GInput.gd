@@ -73,7 +73,7 @@ func create_debugging_players():
 	if not OS.is_debug_build(): return
 	if get_player_count() > 0: return
 	
-	for i in range(2):
+	for i in range(1):
 		add_new_player(InputDevice.KEYBOARD)
 
 #

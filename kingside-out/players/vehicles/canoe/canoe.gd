@@ -24,6 +24,8 @@ func on_health_depleted() -> void:
 
 # @TODO: should the CANOE really be the one instantiating the swim vehicle!?
 func send_player_swimming(p:Player) -> void:
+	if not connected_players.has(p): return
+	
 	var v : VehicleSwim = swim_vehicle.instantiate()
 	v.set_position(global_position)
 	GSignalBus.place_on_map.emit(v, "players")

@@ -20,7 +20,10 @@ func on_resize() -> void:
 	var match_scale = min(vp_size.x / total_size.x, vp_size.y / total_size.y)
 	set_scale(Vector2.ONE * match_scale)
 
-func on_game_over() -> void:
+func on_game_over(_we_won:bool) -> void:
+	
+	# @TODO: display something entirely different depending on whether we won or lost
+	
 	get_tree().paused = true
 	set_visible(true)
 	
@@ -58,8 +61,10 @@ func on_game_over() -> void:
 
 func _input(ev) -> void:
 	if ev.is_action_released("game_over_restart"):
+		get_tree().paused = false
 		get_tree().reload_current_scene()
 		return
 	
 	if ev.is_action_released("game_over_back"):
+		get_tree().paused = false
 		get_tree().change_scene_to_file("res://game_loop/input_select/input_select.tscn")
