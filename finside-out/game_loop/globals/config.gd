@@ -1,6 +1,11 @@
 class_name Config extends Resource
 
-@export_subgroup("General Map")
+@export_group("Debug")
+@export var debug_show_labels := false
+@export var debug_skip_pregame := false
+@export var debug_quick_gameover := true
+
+@export_group("General Map")
 @export var canoe_size := Vector2(128.0, 64.0)
 @export var canoe_body_bevel := 2.0
 @export var canoe_mass := 100.0
@@ -13,13 +18,13 @@ var ground_texture_size_bounds := Bounds.new(0.15, 0.4)
 var area_size_bounds := Bounds.new(1,3) # remember that one part is an entire _polygon_, so even a single-polygon-area can be quite large and enough
 @export var area_determines_drop_type := true
 
-@export_subgroup("Camera")
+@export_group("Camera")
 @export var camera_edge_margin := Vector2(106.0, 106.0)
 var camera_size_bounds := Bounds.new(1.0, 3.75) # ~map_size => good bounds are probably near 3.5-4.0
 @export var camera_num_segments_look_ahead := 1
 @export var camera_max_index_difference_between_players := 8.0
 
-@export_subgroup("River Generation")
+@export_group("River Generation")
 @export var river_max_tries_before_give_up := 20
 var river_rotation_per_step_bounds := Bounds.new(0.035*PI, 0.175*PI)
 @export var target_river_length := 2.0 # ~map_size
@@ -30,13 +35,18 @@ var river_width_change_bounds := Bounds.new(0.3, 0.5) # ~width_def
 var river_step_dist_bounds := Bounds.new(0.5, 0.6) # ~map_size
 var river_bend_change_bounds := Bounds.new(8.0, 15.0) # the river will keep bending in the same direction for several steps (prettier and more organic); these bounds indicate when it will randomly switch
 
-@export_subgroup("Obstacles")
+@export_group("Obstacles")
 var water_current_radius := Bounds.new(0.125, 0.225) # ~map_size
 var water_current_strength := Bounds.new(30.0, 42.5) # ~canoe_mass * power
 var water_current_step_bounds := Bounds.new(0.2, 0.5)
 @export var water_current_scroll_speed := 0.5
 @export var water_current_shader_scale := 1.75
 @export var water_current_backwards_strength_modifier := 0.1 # at full 180 degrees backward, it only uses 10% of normal strength
+@export var water_current_time_spent_before_still := 25.0 # after X seconds of people thrashing around in it, the current has fallen silent
+var water_current_strength_bounds := Bounds.new(0.5, 1.0)
+var water_current_time_spent_bounds := Bounds.new(1.0, 0.1)
+var water_current_auto_fade_bounds := Bounds.new(0.0, 0.0)
+var water_current_auto_rotate_bounds := Bounds.new(0.0, 0.0)
 
 var rocks_radius := Bounds.new(0.01, 0.075) # ~map_size
 var rock_step_bounds := Bounds.new(0.075, 0.2)
@@ -46,12 +56,12 @@ var rocks_damage_per_velocity := 0.5
 @export var rocks_spawn_random_elements := true
 var rock_element_drop_push_force_bounds := Bounds.new(0.215, 0.295) # ~map_size; should be close to element_drop_push_force_bounds, but slightly lower
 
-@export_subgroup("Decorations")
+@export_group("Decorations")
 var decoration_step_bounds := Bounds.new(0.025, 0.075)
 var decoration_scale_bounds := Bounds.new(0.7, 1.5) # ~step_bounds
 var tutorial_size := 0.195 # ~map_size
 
-@export_subgroup("Elements")
+@export_group("Elements")
 var num_unique_element_types := Bounds.new(4, 5)
 var element_step_bounds := Bounds.new(0.3, 0.6)
 var element_drop_push_force_bounds := Bounds.new(0.275, 0.375) # ~map_size
@@ -59,14 +69,11 @@ var element_drop_forbidden_angle := 0.5 * PI # they always go to the side or bac
 var element_size_bounds := Bounds.new(0.05, 0.075)
 var conversion_duration_bounds := Bounds.new(0.5, 1.5)
 
-@export_subgroup("Finish")
+@export_group("Finish")
 @export var finish_turtle_afterwards := true
 @export var finish_width := 0.775 # ~canoe_size.x
 
-#
-# CANOE
-#
-@export_subgroup("Vehicles")
+@export_group("Vehicles")
 enum CanoeMovementMode
 {
 	CONTINUOUS,
@@ -101,19 +108,14 @@ enum CanoeControlSide
 
 @export var vehicle_to_vehicle_hit_damage_factor := 0.35
 
-#
-# PIRANHA
-#
-@export_subgroup("Piranhas")
+@export_group("Piranhas")
 var piranha_speed_bounds := Bounds.new(0.1, 0.15) # ~map_size
 var piranha_num_bounds := Bounds.new(1,1)
 @export var piranha_scan_radius := 0.33 # ~map_size
 @export var piranha_kill_radius := 0.2 # ~piranha_scan_radius
 
-#
-# SPECIAL EFFECTS / ELEMENTS
-#
-@export_subgroup("Effects")
+
+@export_group("Effects")
 var speed_factor_bounds := Bounds.new(0.33, 1.85)
 var vehicle_scale_factor_bounds := Bounds.new(0.5, 1.5)
 var vehicle_mass_scale_bounds := Bounds.new(0.33, 1.85)

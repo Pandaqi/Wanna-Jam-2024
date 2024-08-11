@@ -15,7 +15,6 @@ func update(ra:RiverArea) -> void:
 func on_area_changed() -> void:
 	
 	material.set_shader_parameter("color", area.type.color)
-	print("#Nodes Inside", area.nodes_inside.size())
 	for node in area.nodes_inside:
 		node.modulate = area.type.color
 	

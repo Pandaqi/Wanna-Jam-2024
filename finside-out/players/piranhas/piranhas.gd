@@ -37,10 +37,9 @@ func _process(_dt:float) -> void:
 
 func draw_perp_line() -> void:
 	var furthest_index := get_furthest_index()
-	#print("Furthest idx", furthest_index)
 	perp_line = map_data.get_perpendicular_line_at_index(furthest_index)
 	queue_redraw()
 
 func _draw() -> void:
 	if not perp_line: return
-	draw_line(perp_line.start, perp_line.end, Color(1,0,0), 32.0)
+	draw_line(perp_line.start, perp_line.end, Color(0.75, 0, 0.75, 0.25), 6.0)

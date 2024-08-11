@@ -13,6 +13,8 @@ var ghost := false
 
 @onready var timer_ghost : Timer = $TimerGhost
 
+@onready var audio_player := $AudioStreamPlayer2D
+
 signal size_changed(new_size:Vector2)
 signal ghost_changed(val:bool)
 
@@ -44,6 +46,9 @@ func on_body_entered(body:Node2D) -> void:
 	if "health" in entity:
 		var self_health_mod = entity.health
 		self_health_mod.update_health(-damage * damage_factor)
+	
+	audio_player.pitch_scale = randf_range(0.9, 1.1)
+	audio_player.play()
 
 func change_scale(ds:float) -> void:
 	scale_factor = Global.config.vehicle_scale_factor_bounds.clamp_value(scale_factor * ds)

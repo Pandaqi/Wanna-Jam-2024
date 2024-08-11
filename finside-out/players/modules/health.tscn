@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://ufie66t38fss"]
 
 [ext_resource type="Script" path="res://players/modules/health.gd" id="1_xfy1c"]
-[ext_resource type="Texture2D" uid="uid://db33gmfpidewc" path="res://icon.svg" id="2_wnjdk"]
+[ext_resource type="Texture2D" uid="uid://c3lfat0ssiwux" path="res://players/vehicles/health_bar_tex.tres" id="2_mawmt"]
 
 [sub_resource type="Animation" id="Animation_y8i8e"]
 tracks/0/type = "value"
@@ -44,16 +44,16 @@ script = ExtResource("1_xfy1c")
 [node name="ProgBarCont" type="Node2D" parent="."]
 modulate = Color(1, 1, 1, 0)
 top_level = true
+scale = Vector2(0.5, 0.5)
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="ProgBarCont"]
-offset_left = -170.0
-offset_top = -47.0
-offset_right = 170.0
-offset_bottom = 49.0
+offset_left = -256.0
+offset_top = -258.0
+offset_right = 256.0
+offset_bottom = 254.0
 value = 50.0
-nine_patch_stretch = true
-texture_under = ExtResource("2_wnjdk")
-texture_progress = ExtResource("2_wnjdk")
+texture_under = ExtResource("2_mawmt")
+texture_progress = ExtResource("2_mawmt")
 tint_progress = Color(0, 1, 0.416667, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ProgBarCont"]

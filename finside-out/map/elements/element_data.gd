@@ -18,6 +18,7 @@ class_name ElementData
 @export var piranha_change := 1.0
 @export var explode := false
 @export var piranha_interested := false
+@export var health_recharge := false
 
 func execute(eg:ModuleElementGrabber) -> void:
 	var player := eg.entity
@@ -25,6 +26,11 @@ func execute(eg:ModuleElementGrabber) -> void:
 	
 	if not is_equal_approx(time_change, 0.0): player.effects_tracker.add_time(time_change)
 	GSignalBus.piranha_change.emit(piranha_change)
+	
+	if health_recharge and (vehicle is VehicleCanoe):
+		vehicle.health.scale_base_health(1.2)
+		vehicle.health.refill()
+		
 	
 	if explode:
 		GSignalBus.should_explode.emit(vehicle.global_position)

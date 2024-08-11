@@ -7,10 +7,10 @@ func _ready() -> void:
 	entity.driver_added.connect(on_driver_added)
 	entity.driver_removed.connect(on_driver_removed)
 
-func on_driver_added(p:Player, side:Config.CanoeControlSide) -> void:
+func on_driver_added(_p:Player, _side:Config.CanoeControlSide) -> void:
 	pass
 
-func on_driver_removed(p:Player):
+func on_driver_removed(_p:Player):
 	pass
 
 func get_forward_vector() -> Vector2:

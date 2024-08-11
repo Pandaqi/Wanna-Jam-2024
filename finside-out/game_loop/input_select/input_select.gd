@@ -2,7 +2,8 @@ class_name InputSelect extends Node2D
 
 @export var player_select_scene : PackedScene
 var player_selects : Array[PlayerSelect] = []
-var player_select_size := Vector2(4,8) * 128.0
+var player_select_size := Vector2(710, 1500)
+var margin := Vector2(64.0, 64.0)
 var total_size := Vector2.ZERO
 
 func _ready() -> void:
@@ -15,6 +16,7 @@ func _ready() -> void:
 func on_resize() -> void:
 	var vp_size := get_viewport_rect().size
 	set_position(0.5 * vp_size)
+	vp_size -= 2*margin
 	
 	var match_scale = min(vp_size.x / total_size.x, vp_size.y / total_size.y)
 	set_scale(Vector2.ONE * match_scale)

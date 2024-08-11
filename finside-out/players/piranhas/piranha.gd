@@ -16,6 +16,7 @@ var target_vehicle : Vehicle
 @onready var col_shape_scan : CollisionShape2D = $AreaScan/CollisionShape2D
 @onready var area_kill : Area2D = $AreaKill
 @onready var col_shape_kill : CollisionShape2D = $AreaKill/CollisionShape2D
+@onready var audio_player := $AudioStreamPlayer2D
 
 # @TODO: all the functionality for following track, chasing player, killing them
 func activate() -> void:
@@ -130,8 +131,12 @@ func _on_area_kill_body_entered(body: Node2D) -> void:
 		body.kill()
 		target_element = null
 		recheck_closest_element()
+		audio_player.volume_db = -8
+		audio_player.pitch_scale = randf_range(0.9, 1.1)
 	
 	if body is Vehicle:
 		body.kill_drivers()
 		body.kill()
 		target_vehicle = null
+		audio_player.volume_db = 0
+		audio_player.play()

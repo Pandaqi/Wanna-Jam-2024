@@ -29,6 +29,9 @@ func generate_river() -> bool:
 	var rotation_per_step_bounds := Global.config.river_rotation_per_step_bounds
 	var target_river_length := Global.config.get_map_base_size() * Global.config.target_river_length
 	
+	if OS.is_debug_build() and Global.config.debug_quick_gameover:
+		target_river_length = 2 * Global.config.get_map_base_size()
+	
 	# prepare helper classes
 	var cur_width_left := RiverWidthChanger.new(base_width, width_bounds, width_change_bounds)
 	var cur_width_right := RiverWidthChanger.new(base_width, width_bounds, width_change_bounds)

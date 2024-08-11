@@ -47,7 +47,7 @@ func get_perpendicular_line_at_index(idx:float) -> Line:
 
 # @NOTE: If a boat is at index "1", it means the closest track point _behind us_ has index 1
 # Another Example: If at "1.5" it means we're halfway between points 1 and 2 on the center line
-func get_index_closest_to(pos:Vector2, start_from:int = -1) -> float:
+func get_index_closest_to(pos:Vector2, start_from:float = -1) -> float:
 	var dir := 1
 	var closest_dist := INF
 	var closest_index_precise : float = start_from
@@ -55,7 +55,7 @@ func get_index_closest_to(pos:Vector2, start_from:int = -1) -> float:
 	var check_all = start_from < 0
 	
 	for i in range(gen.count()):
-		var index_offset : int = floor(i/2) * dir
+		var index_offset : int = floor(i/2.0) * dir
 		if check_all: index_offset = i
 		
 		var cur_index : int = start_from + index_offset

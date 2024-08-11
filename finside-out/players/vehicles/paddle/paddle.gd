@@ -5,9 +5,11 @@ var connected_players : Array[Player] = []
 var recovering := false
 var last_recover_time := 0.0
 var last_input_reset_time := 0.0
+var is_moving := false
 
 @onready var timer : Timer = $Timer
 @onready var mover : ModuleVehicleMover = get_parent()
+@onready var audio_player := $AudioStreamPlayer2D
 
 func _physics_process(_dt:float) -> void:
 	poll_inputs()
@@ -23,6 +25,7 @@ func poll_inputs() -> void:
 		var key_pressed := p.input.is_right() if is_right else p.input.is_left()
 		if not key_pressed: 
 			last_input_reset_time = Time.get_ticks_msec()
+			is_moving = false
 			return
 		
 		var should_respond := should_respond_to_input()
@@ -45,6 +48,13 @@ func row(dir:int) -> void:
 	mover.apply_impulse(impulse_vec, impulse_pos)
 	
 	start_timer()
+	
+	var was_moving := is_moving
+	if not was_moving:
+		audio_player.pitch_scale = randf_range(0.9, 1.1)
+		audio_player.play()
+	
+	is_moving = true
 
 func start_timer() -> void:
 	timer.wait_time = Global.config.canoe_timer_duration

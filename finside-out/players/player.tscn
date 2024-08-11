@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmwlybd45emhm"]
+[gd_scene load_steps=15 format=3 uid="uid://bmwlybd45emhm"]
 
 [ext_resource type="Script" path="res://players/player.gd" id="1_x4sn3"]
 [ext_resource type="Script" path="res://players/modules/input.gd" id="2_ig306"]
 [ext_resource type="Script" path="res://players/modules/vehicle_manager.gd" id="3_wwbob"]
 [ext_resource type="Script" path="res://players/modules/element_grabber.gd" id="4_i8w0q"]
+[ext_resource type="AudioStream" uid="uid://dr0f4t1cgqe3t" path="res://players/vehicles/ship_break.ogg" id="4_ltnvs"]
+[ext_resource type="AudioStream" uid="uid://l3khfer7ndwr" path="res://map/elements/item_grab.ogg" id="5_geyix"]
 [ext_resource type="Script" path="res://players/modules/element_dropper.gd" id="5_qhvmn"]
 [ext_resource type="Script" path="res://players/modules/element_converter.gd" id="5_ymhcn"]
 [ext_resource type="Resource" uid="uid://bv8cc8g4sb15k" path="res://map/river/river_spawner.tres" id="6_oicai"]
@@ -19,11 +21,18 @@ script = ExtResource("1_x4sn3")
 [node name="Input" type="Node" parent="."]
 script = ExtResource("2_ig306")
 
-[node name="VehicleManager" type="Node" parent="."]
+[node name="VehicleManager" type="Node2D" parent="."]
 script = ExtResource("3_wwbob")
 
-[node name="ElementGrabber" type="Node" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="VehicleManager"]
+stream = ExtResource("4_ltnvs")
+volume_db = -1.5
+
+[node name="ElementGrabber" type="Node2D" parent="."]
 script = ExtResource("4_i8w0q")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="ElementGrabber"]
+stream = ExtResource("5_geyix")
 
 [node name="ElementConverter" type="Node2D" parent="."]
 script = ExtResource("5_ymhcn")
@@ -34,6 +43,9 @@ one_shot = true
 
 [node name="ElementDropper" type="Node2D" parent="."]
 script = ExtResource("5_qhvmn")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="ElementDropper"]
+stream = ExtResource("5_geyix")
 
 [node name="RiverTracker" type="Node2D" parent="."]
 script = ExtResource("7_rf7bx")

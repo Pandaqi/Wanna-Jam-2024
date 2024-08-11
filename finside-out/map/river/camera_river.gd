@@ -56,7 +56,7 @@ func get_bounds() -> Rect2:
 		max_bounds_pos = Vector2(-INF, -INF)
 		
 		for p in players_data.players:
-			var rect = p.vehicle_manager.connected_vehicle.get_bounds()
+			var rect = p.vehicle_manager.get_bounds()
 			expand_bounds(rect)
 		
 		# make sure the first player can "look ahead"

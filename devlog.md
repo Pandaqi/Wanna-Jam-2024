@@ -178,11 +178,15 @@ A bit technical, perhaps, but it's just to illustrate the kinds of issues that c
 
 With that done, the game was completely unpolished (missing icons, no sound effects, etcetera), but it was actually a really fun game to play. And, as per my personal challenge, I devoted a plenty of time to making that river look visually stunning (which mostly meant learning some more shader magic/tricks). Okay, stunning is a big word, it just looks better than I expected a randomly generated curvy-river-line to look, okay?
 
+@TODO: Can I do a screenshot of what I'm actually talking about?
+
 If all else fails, I can add all this polish in a day or so, and make this my submission.
 
 That said, let's look at that other idea.
 
 ## Step 2: Continue with something completely different
+
+### Creating the skeleton
 
 The next "simplest" idea was the Inside Sprout. That's really a simplification of Kingside Out.
 
@@ -196,7 +200,7 @@ What were those components? (Yes, I was making this list the evening before to s
 
 * Map
   * Some way to spawn, manage, check _areas_. (The area player A is in, determines what player B drops. And which area is _inside_/_outside_, of course.)
-  * Some way to spawn and manage _elements_.
+  * Some way to spawn and manage _elements_. (Just spawn randomly, not too close to players, with min/max restrictions.)
   * Some way to spawn and manage _monsters_. (In waves, increasing difficulty, random positions screen edge.)
   * The "Heart". (Something that must be protected, takes damage, game over if destroyed.)
 * Monster Logic
@@ -208,33 +212,127 @@ What were those components? (Yes, I was making this list the evening before to s
 * State/Progression
   * The thing that manages how far you've come, when it's game start/game over, which rules are unlocked
 
-At this point, I still hadtwo major questions left:
+At this point, I still had two major questions left:
 
 * What's the significance of inside/outside? What is the real difference and challenge from controlling two characters, one of whom is "inside"?
 * What's the theme or map layout? Painting colored circles on a flat solid floor will not look or feel great ...
 
+Then I noticed the words "just spawn randomly" in my notes for spawning elements. Experience tells me that this is usually a great opportunity to change "random/whatever" to "controlled by player". For now, I went ahead with the following idea.
+
+* The inside player _purchases new seeds_. They have stations for buying certain elements / making them spawn in certain locations. That's how you must manually make stuff appear, and hopefully in a tactical way.
+* There's a moat _between_ the two players, so they literally can't visit each other's spaces. (And that moat can reuse my organic river generation code.) They can pass stuff between them, though, which is a transition that should _matter somehow_.
+  * Maybe you can visit/swap places, but you need to both be at the harbor and it takes time.
+  * Maybe giving stuff back to the inside is the _only_ way the inner player can get defenses/weapons in case the monsters break through there.
+  * Maybe there are bridges to the inside. Destroying/changing those bridges are a crucial part of strategy, but it takes resources/timing/being at the correct station to do so obviously.
+
+Ugh. See what I'm doing again? I'm overcomplicating it! Moving towards Kingside Out again, while I wanted to do the _simpler_ version of that idea first.
+
+So no no no, forget about that _for now_. Let's make Inside Sprout first, which just has a single player (or all players doing the same thing, free to move around), randomized areas, and completely focuses on "one thing goes in > wait > another thing comes out"
+
+### How'd that go?
+
+I ended up doing the following for the map.
+
+* The world is a _grid_.
+* Using a simple flood-fill, I divided it into areas of different types.
+* Then I found the _outline_ of those areas, so I had a single polygon that I could draw and fill.
+* And then I could use a shader to make the edges a bit fuzzy and wobbly, so the transitions are nicer.
+* And we get a world subdivided into areas of different types, without looking extremely static or harsh.
+
+In general, it's wise to _start_ random generation from order, then slowly make it more chaotic or random. Starting from pure randomness and trying to wrangle order out of that ... yeah, usually not great. That's why I (and many other algorithms for this) love starting with a grid or subdivisions of some sort, and then modifying that.
+
+It _also_ makes area checks exceptionally cheap and opens the doorway to Kingside Out. (For example, I can simply mark a few areas in the center as "inside", and forbid the player there from leaving them. Boom, we're getting there. But as I say that, I am very uncertain whether I'll have time to get anywhere near that third idea.)
+
+I had some trouble with the shader. I'd coded one to make the edges of a rectangle jagged ... only to realize that the areas were obviously going to be irregularly shaped :p So how does it know if it's dealing with an edge?
+
+After some trial and error, I had the eureka moment that I could pretend each area was a circle. In other words, 
+
+* I step through the outline (the `Vector2` points that determine the edge, which are already sorted in the right order)
+* For each point, I pretend it's the next step on a circle. (So, I update the angle by X. Then I get the position on a circle of radius `0.5`, at position `(0.5, 0.5)`, with that angle.)
+* Then I simply assign that circle location as the UV coordinate for this point.
+* And in the shader, I can now calculate the "distance to the edge" of any point by calculating the distance of its UV to `(0.5, 0.5)`. All the points on the edge will fall exactly on that circle, with distance 0. (And so, if within a certain threshold, I enable the noise texture value for that pixel to make the edges fuzzy and wobbly.)
+
+This took me an hour and a half, but it works flawlessly now and I learned a lot about shaders and UV coordinates again.
+
+@TODO: IMAGE OF MAP IN PROGRESS
+
+I could re-use my code (from the rowing game) for picking up and converting elements based on the area where you are. (Though with major modifications, because now you can have _multiple elements_ at the same time, and I needed some timer/visualization for that.)
+
+The monsters and spawning had to be done from scratch. But it's not too hard to assign a specific weakness to a monster, then check if one such element is in range, and if so, walk to it.
+
+Or so I thought ...
+
+### Trying to find the game
+
+Once I had all the core elements, I tested the game, and it obviously wasn't fun. Numbers were wacky. Distances too big. I only had a pretty map and no other sprites, so I had no clue what every plant/monster even was :p
+
+The crucial thing here is to try a lot of things and find a simple core game loop that _does_ feel fun, even lacking graphics.
+
+And so I noticed the following things.
+
+**Tweak #1:** It feels odd if monsters instantly consume/remove a flower. That means "distracting" them often has a disappointing impact, as they just walk out of their way for 1 second, destroy the distraction, and they're headed for the Heart again.
+
+Additionally, when trying to invent multiple types of monsters/flowers, I noticed I didn't have many properties to "tweak". I needed more ways to differentiate how these objects function in the game.
+
+And so I decided to create a second module (`Attacker`), and give both `Health` and `Attacker` to both enemies and elements. In other words, 
+
+* They _both_ have a health bar.
+* Attacking just does X damage ... and then it waits for a timer to attack again.
+* Once health is empty, of course, one of them dies and the attack yields.
+* To keep plants more passive, though, which feels more fitting, they only attack when provoked.
+
+This felt far better. Distracting enemies actually meant something. And now I could tweak health, damage, attack speed, etcetera between different types.
+
+**Tweak #2:** The biggest danger in a game like this is that the "optimal" strategy is to stay close to your Heart and plop all your defenses down there. Most of the ideas I had were making this problem _worse_. They were nudging/encouraging players to stay closer to their Heart, to move less, to do the passive/safe thing.
+
+When I noticed this problem, I purposely flipped it around. How can I make sure the player is often forced to move away and to keep moving?
+
+* The rule of "what you drop depends on your area" already helps here, but really only at later stages, when monsters have wildly different flowers that could attract them.
+* Giving monsters pretty small sight/kill ranges would help too. (Communicating their exact range with a circle on the ground or something also seems smart.)
+* I continued my idea of "inside and outside" 
+  * The areas around the Heart are automatically assigned _inside_ and given a different look.
+  * When inside, you **can't drop elements**. In other words, when close to the Heart, you literally _can't_ put up defenses.
+  * What _can_ you do instead? Well ...
+
+**Tweak #3:** All these tweaks make the game far more dynamic, but also lead to situations of "powerlessness". If a monster comes from direction A, and there is simply no area at in its path that grows the right flowers---you can't stop it! You just can't.
+
+At first, I considered giving the player some slight attacking power too. But no, the unique factor of this game is that you can't do damage directly, only through planting flowers/dropping seeds.
+
+Instead, I used the remaining question ("what different thing can you do when inside?") to answer this.
+
+* When inside, anything you drop becomes the same thing: a bullet.
+* Around the heart is also a cannon. As long as there are bullets inside, you can operate the cannon and shoot.
+* Your other properties (timer, speed, etcetera) are also different inside.
+* And when you visit your Heart (or some other space inside), perhaps whenever you transition inside/outside, the areas recolor themselves.
+
+I also opted for this "tree gun" because of perhaps the final major problem: once monsters _have_ broken through your flowers/defenses, they can juts attack the heart endlessly, and you can do nothing to stop it. That's the downside of having the "rule" that the player itself does not interact with the monsters at all. But with a cannon from your heart, which you can always reload and aim, you can still shoot monsters that have come inside.
+
+I implemented this, as always, in the way that requires no extra explanation or controls.
+
+* The cannon automatically aims in your direction when you're walking inside.
+* It automatically shoots on a timer, provided you've dropped at least one bullet.
+* And if you've seen it once, you understand what it does and can use it easily.
 
 
+### That's a game?
+
+Though not amazing, this actually makes the game challenging and interesting to play.
+
+It really _is_ a simplified version of Kingside Out. Which, I realize, I probably wouldn't have managed to make in the short timeframe anyway.
+
+I ended up simplifying it more and more as I realized I ran out of time ... and plain out of energy and motivation. I've written another article about my experience doing several game jams in a row and all the mistakes I made that led to being too exhausted to properly finish this one :p
+
+The biggest one is to simply unify "distracted by" and "killed by". These were two different things in the code: animals were always _distracted_ by more things (so they went out of their way to visit that flower) than they were _killed_ (only a few of those distractions would actually attack).
+
+When it came time to determine the specific properties of all animals/enemies, though, I realized this distinction was moot. It overcomplicated things without any tangible benefit. So now there's only _one_ enemy that actually has a difference, while all others are just "anything that distract us kills us".
+
+Similarly, I _randomized_ the duration of the conversion (pick up seed -> ... random time ... -> drop) at first. Easy to code, extra variety, extra challenge right? (And you could see the timer for each one clearly, so it wasn't guesswork for the player.) When playing the nearly finished game, though, I noticed that it's just annoying if the order that elements will drop completely changes (at random) every time you pick up something. It's much nicer if you know the first timer will finish first, so you also know exactly where you need to be then. 
+
+This randomness served no purpose, and turned something that should be fun strategy into an annoyance, so all element conversions simply became a fixed time.
 
 
-I see a few components that we'll need regardless of the game idea.
+@TODO: IMAGE/VIDEO of how it plays now?
 
-* RowingBoat movement/mechanics
-* Converter (Element goes in, wait a while, something else is dropped)
-* MonsterSpawner 
-* ElementSpawner (just spawn randomly, not too close to players, with min/max restrictions)
-* Heart 
-* Player / Monster / Element objects
-  * Player = listens to player input, otherwise reuses the same modules as everyone else
-  * Monster = has some type resource, movement resource, attracted to closest elements
-  * Element = just has an area for picking it up, doesn't do much else
+I would've loved to try all the other ideas and twists and mechanics, but time is running out now. It's time to start polishing both ideas, otherwise I risk missing huge chunks of sprites/sound effects/necessary tutorial instructions by the time I have to submit.
 
-I decided to make all of these first, and then see where we were and how I felt about the ideas.
-
-@TODO
-
-## Step 2: A first prototype
-
-Now we combine the elements for the first time to get our first prototype: monsters move in, we row around converting stuff, and we must survive.
-
-@TODO
+## Conclusion

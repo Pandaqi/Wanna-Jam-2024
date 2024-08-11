@@ -3,6 +3,8 @@ class_name ModuleElementDropper extends Node2D
 var vm : ModuleVehicleManager
 var spawner : ElementSpawner
 
+@onready var audio_player := $AudioStreamPlayer2D
+
 signal element_dropped(e:Element)
 
 func activate(v:ModuleVehicleManager, ec:ModuleElementConverter, em:ElementSpawner) -> void:
@@ -14,6 +16,7 @@ func drop_random() -> void:
 	drop(spawner.spawner.get_random_available_element())
 
 func drop(ed:ElementData, type_forced := false) -> void:
+	
 	var pos := get_random_position_around_us()
 	var push_away_force : Vector2 = (pos - vm.get_vehicle_position()).normalized() * Global.config.get_map_base_size() * Global.config.element_drop_push_force_bounds.rand_float()
 	
@@ -24,6 +27,9 @@ func drop(ed:ElementData, type_forced := false) -> void:
 	
 	var elem_node := spawner.on_element_drop(sp) as Element
 	element_dropped.emit(elem_node)
+	
+	audio_player.pitch_scale = randf_range(0.9, 1.1)
+	audio_player.play()
 
 func get_random_position_around_us() -> Vector2:
 	var canoe_range := 0.35 * Global.config.canoe_size.y # we can go quite tight; we have an exception for X seconds anyway, and this prevents spawning out of bounds

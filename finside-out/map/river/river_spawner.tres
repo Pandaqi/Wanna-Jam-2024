@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://bxg2sy2v3vq3g" path="res://map/elements/types/element_bomb.tres" id="3_04t63"]
 [ext_resource type="Resource" uid="uid://dl4f2ywwpo0jd" path="res://map/elements/types/element_canoe.tres" id="4_vpytl"]
 [ext_resource type="Resource" uid="uid://daerfkrnu5su0" path="res://map/elements/types/element_ghost.tres" id="5_4jwnt"]
-[ext_resource type="Resource" uid="uid://dlkjchfq7x6od" path="res://map/elements/types/element_mass.tres" id="6_ajblk"]
+[ext_resource type="Resource" uid="uid://ddi1aouh7nred" path="res://map/elements/types/element_health.tres" id="6_jal5v"]
 [ext_resource type="Resource" uid="uid://crxwcwg7m1kok" path="res://map/elements/types/element_piranha.tres" id="7_5wvjj"]
 [ext_resource type="Resource" uid="uid://ddcyhxwxim8yp" path="res://map/elements/types/element_speed.tres" id="8_b756o"]
 [ext_resource type="Resource" uid="uid://8t5xvjcg3b2d" path="res://map/elements/types/element_time.tres" id="9_7chvt"]
@@ -15,4 +15,4 @@
 [resource]
 script = ExtResource("1_5osu1")
 river_map_data = ExtResource("1_t85jy")
-all_elements = Array[ExtResource("1_sg1ri")]([ExtResource("2_y1bxp"), ExtResource("3_04t63"), ExtResource("4_vpytl"), ExtResource("5_4jwnt"), ExtResource("6_ajblk"), ExtResource("7_5wvjj"), ExtResource("8_b756o"), ExtResource("9_7chvt")])
+all_elements = Array[ExtResource("1_sg1ri")]([ExtResource("2_y1bxp"), ExtResource("3_04t63"), ExtResource("4_vpytl"), ExtResource("5_4jwnt"), ExtResource("6_jal5v"), ExtResource("7_5wvjj"), ExtResource("8_b756o"), ExtResource("9_7chvt")])

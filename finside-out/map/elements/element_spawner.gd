@@ -127,7 +127,6 @@ func on_element_drop(sp:PossibleSpawnPoint) -> Node2D:
 		var area := map_data.subdiv.get_area_at_index(idx_of_pos)
 		sp.type_elem = area.type
 	
-	print("Should drop element", sp.type_elem, sp.pos, sp.force)
 	return spawn_object(element_scene, sp)
 
 func on_explosion(pos:Vector2) -> void:

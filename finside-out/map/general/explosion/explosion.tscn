@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bacfkl3u07sxr"]
+[gd_scene load_steps=7 format=3 uid="uid://bacfkl3u07sxr"]
 
 [ext_resource type="Script" path="res://map/general/explosion/explosion.gd" id="1_esgpc"]
-[ext_resource type="Texture2D" uid="uid://db33gmfpidewc" path="res://icon.svg" id="2_2rqya"]
+[ext_resource type="Texture2D" uid="uid://cxofawrqsac37" path="res://players/vehicles/atlas_tex_particles.tres" id="2_fgkv0"]
+[ext_resource type="AudioStream" uid="uid://vre6g5l5qwue" path="res://map/elements/explosion_medium.ogg" id="3_ew8aj"]
 
 [sub_resource type="Curve" id="Curve_ydasf"]
 _data = [Vector2(0, 0.542074), 0.0, 0.0, 0, 0, Vector2(0.104592, 1), 0.0, 0.0, 0, 0, Vector2(0.997449, 0), 0.0, 0.0, 0, 0]
@@ -17,18 +18,19 @@ radius = 512.0
 script = ExtResource("1_esgpc")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-emitting = false
-amount = 48
-lifetime = 0.7
+modulate = Color(4, 4, 4, 1)
+amount = 92
+lifetime = 1.15
 explosiveness = 0.75
+randomness = 0.9
 lifetime_randomness = 1.0
-texture = ExtResource("2_2rqya")
+texture = ExtResource("2_fgkv0")
 emission_shape = 1
 emission_sphere_radius = 128.0
 gravity = Vector2(0, 0)
 angle_max = 360.0
 scale_amount_min = 0.2
-scale_amount_max = 0.4
+scale_amount_max = 0.3
 scale_amount_curve = SubResource("Curve_ydasf")
 color_ramp = SubResource("Gradient_g5lxv")
 
@@ -38,3 +40,8 @@ collision_mask = 31
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_2i4he")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ew8aj")
+volume_db = -2.0
+max_distance = 6000.0

@@ -36,7 +36,7 @@ func from_spawn_point(sp:PossibleSpawnPoint) -> void:
 
 func set_radius(r:float) -> void:
 	var shp = CircleShape2D.new()
-	shp.radius = r
+	shp.radius = 0.95*r # be friendly to the player
 	col_shape.shape = shp
 	
 	var new_size := Vector2.ONE * 2 * r
@@ -59,7 +59,9 @@ func kill() -> void:
 func drop_element() -> void:
 	var sp = PossibleSpawnPoint.new(global_position)
 	
-	var vec_away := (global_position - health.last_attacker.global_position).normalized()
+	var vec_away := Vector2.from_angle(randf() * 2 * PI)
+	if health.last_attacker:
+		vec_away = (global_position - health.last_attacker.global_position).normalized()
 	var speed := Global.config.get_map_base_size() * Global.config.rock_element_drop_push_force_bounds.rand_float()
 	var force_away := vec_away * speed
 	sp.force = force_away

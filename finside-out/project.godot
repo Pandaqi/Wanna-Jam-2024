@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Kingside Out"
-run/main_scene="res://game_loop/main_river/main_river.tscn"
+config/name="Finside Out"
+run/main_scene="res://game_loop/input_select/input_select.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 

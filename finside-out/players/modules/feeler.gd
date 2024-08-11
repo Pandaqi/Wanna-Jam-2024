@@ -22,7 +22,7 @@ func player_added(p:Player, _side:Config.CanoeControlSide) -> void:
 func player_removed(p:Player) -> void:
 	p.element_grabber.exclusion_ended.disconnect(on_exclusion_ended)
 
-func on_exclusion_ended(body) -> void:
+func on_exclusion_ended(_body) -> void:
 	recheck_area()
 
 func recheck_area() -> void:

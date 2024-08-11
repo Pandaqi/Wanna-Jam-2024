@@ -5,7 +5,9 @@ var rotate_dir := 1
 var ROT_SPEED := 2*PI
 var rotate_locked := false
 var physics : ModulePhysics
+var is_moving := false
 
+@onready var audio_player := $AudioStreamPlayer2D
 @onready var arrow : Sprite2D = $Arrow
 
 func activate(p:ModulePhysics):
@@ -32,6 +34,9 @@ func get_arrow_vec() -> Vector2:
 	return Vector2.from_angle(cur_angle)
 
 func poll_input() -> void:
+	var was_moving := is_moving
+	is_moving = false
+	
 	if entity.connected_players.size() <= 0: return
 	
 	var player := entity.connected_players[0]
@@ -52,3 +57,9 @@ func poll_input() -> void:
 	
 	var vec := get_arrow_vec() * entity.get_mass() * Global.config.swim_vehicle_power * get_speed_factor()
 	apply_impulse(vec, Vector2.ZERO)
+	
+	if not was_moving:
+		audio_player.pitch_scale = randf_range(0.9, 1.1)
+		audio_player.play()
+	
+	is_moving = true

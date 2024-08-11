@@ -3,6 +3,7 @@ extends Node2D
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var col_shape : CollisionShape2D = $Area2D/CollisionShape2D
 @onready var area : Area2D = $Area2D
+@onready var audio_player := $AudioStreamPlayer2D
 
 var finish_vec : Vector2 # which side is determined to be "after the finish"
 
@@ -39,5 +40,10 @@ func _physics_process(_dt:float) -> void:
 		var vec_to_body = (body.global_position - global_position).normalized()
 		var dot_prod = vec_to_body.dot(finish_vec)
 		if dot_prod < 0: continue
-		body.finish()
 		
+		finish_body(body)
+
+func finish_body(body) -> void:
+	audio_player.pitch_scale = randf_range(0.9, 1.1)
+	audio_player.play()
+	body.finish()

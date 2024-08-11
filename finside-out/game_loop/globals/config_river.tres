@@ -21,6 +21,7 @@ river_width_def = 0.5
 water_current_scroll_speed = 0.5
 water_current_shader_scale = 1.75
 water_current_backwards_strength_modifier = 0.1
+water_current_time_spent_before_still = 25.0
 rocks_can_be_destroyed = true
 rocks_spawn_random_elements = true
 finish_turtle_afterwards = true

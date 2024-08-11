@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://brf6bx615ewe5"]
+[gd_scene load_steps=42 format=3 uid="uid://brf6bx615ewe5"]
 
 [ext_resource type="Script" path="res://map/river/map_river.gd" id="1_0gj85"]
 [ext_resource type="Script" path="res://game_loop/main_river/main_river.gd" id="1_7xv6r"]
@@ -29,6 +29,8 @@
 [ext_resource type="Script" path="res://ui/game_over/results.gd" id="26_lprc3"]
 [ext_resource type="PackedScene" uid="uid://en2g1lpeqfat" path="res://players/piranhas/piranha.tscn" id="26_n5giw"]
 [ext_resource type="PackedScene" uid="uid://duayx8qhsg4hr" path="res://ui/game_over/result_player.tscn" id="27_bs5ji"]
+[ext_resource type="Script" path="res://ui/tutorial/tutorial.gd" id="28_0byxn"]
+[ext_resource type="Texture2D" uid="uid://di2dkgwk62xme" path="res://ui/tutorial/tutorial.webp" id="29_hipti"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_x7uqa"]
 
@@ -55,6 +57,151 @@ shader_parameter/shades = 3.0
 shader_parameter/steps = 3
 shader_parameter/tint = Color(0.4116, 0.970527, 0.98, 1)
 shader_parameter/highlight = Color(0.71, 1, 0.9855, 1)
+
+[sub_resource type="Animation" id="Animation_tt2bd"]
+resource_name = "appear"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1.15, 1.15), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.139626, 0.10472, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../ColorRect:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.465)]
+}
+
+[sub_resource type="Animation" id="Animation_j1iy0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../ColorRect:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_03fsn"]
+_data = {
+"RESET": SubResource("Animation_j1iy0"),
+"appear": SubResource("Animation_tt2bd")
+}
+
+[sub_resource type="Animation" id="Animation_adjmo"]
+resource_name = "bg_fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.61)]
+}
+
+[sub_resource type="Animation" id="Animation_0q302"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dwq7m"]
+_data = {
+"RESET": SubResource("Animation_0q302"),
+"bg_fade": SubResource("Animation_adjmo")
+}
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_7xv6r")
@@ -105,6 +252,7 @@ script = ExtResource("2_ecp8i")
 [node name="Top" type="Node2D" parent="Map/Layers"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 3
 script = ExtResource("2_i5rqy")
 map_data = ExtResource("2_ydrg4")
 players_data = ExtResource("11_2y2kc")
@@ -136,11 +284,52 @@ map_data = ExtResource("2_ydrg4")
 piranha_scene = ExtResource("26_n5giw")
 state_data = ExtResource("3_d2ljn")
 
+[node name="Tutorial" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("28_0byxn")
+
+[node name="ColorRect" type="ColorRect" parent="Tutorial"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Container" type="Node2D" parent="Tutorial"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Tutorial/Container"]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("29_hipti")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Tutorial/Container"]
+libraries = {
+"": SubResource("AnimationLibrary_03fsn")
+}
+
 [node name="GameOver" type="CanvasLayer" parent="."]
 process_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Results" type="Node2D" parent="GameOver"]
 script = ExtResource("26_lprc3")
 result_scene = ExtResource("27_bs5ji")
 players_data = ExtResource("11_2y2kc")
 state_data = ExtResource("3_d2ljn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameOver/Results"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_dwq7m")
+}

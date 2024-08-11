@@ -1,9 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://w47q3r32a4uk"]
+[gd_scene load_steps=3 format=3 uid="uid://w47q3r32a4uk"]
 
 [ext_resource type="Script" path="res://players/vehicles/modules/physics.gd" id="1_hbge1"]
+[ext_resource type="AudioStream" uid="uid://cn42w5ib21i4v" path="res://players/vehicles/hit.ogg" id="2_riknl"]
 
 [node name="Physics" type="Node2D"]
 script = ExtResource("1_hbge1")
 
 [node name="TimerGhost" type="Timer" parent="."]
 one_shot = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_riknl")
+volume_db = -3.0

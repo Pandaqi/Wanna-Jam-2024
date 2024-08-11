@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://en2g1lpeqfat"]
+[gd_scene load_steps=9 format=3 uid="uid://en2g1lpeqfat"]
 
 [ext_resource type="Script" path="res://players/piranhas/piranha.gd" id="1_81fd7"]
 [ext_resource type="Resource" uid="uid://bdqh3uxn868mc" path="res://map/river/river_map_data.tres" id="2_swtn6"]
 [ext_resource type="Resource" uid="uid://cudbqplakte1q" path="res://players/players_data.tres" id="3_5vxts"]
-[ext_resource type="Texture2D" uid="uid://db33gmfpidewc" path="res://icon.svg" id="3_t5pf4"]
 [ext_resource type="Theme" uid="uid://c2a7nkhpt7afl" path="res://ui/default_theme.tres" id="4_g3wsy"]
+[ext_resource type="PackedScene" uid="uid://v3duygxcvqa4" path="res://game_loop/main_river/misc.tscn" id="6_otm2j"]
+[ext_resource type="AudioStream" uid="uid://c1dpdwc7g3v7o" path="res://players/piranhas/piranha_munch.ogg" id="6_y6w6r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1c58x"]
 radius = 209.153
@@ -34,10 +35,6 @@ collision_mask = 6
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaKill"]
 shape = SubResource("CircleShape2D_js7c5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0, 0, 1)
-texture = ExtResource("3_t5pf4")
-
 [node name="Label" type="Label" parent="."]
 visible = false
 offset_left = -57.0
@@ -45,6 +42,14 @@ offset_top = -54.0
 offset_right = 56.0
 offset_bottom = 57.0
 theme = ExtResource("4_g3wsy")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_y6w6r")
+max_distance = 3500.0
+
+[node name="Sprite2D" parent="." instance=ExtResource("6_otm2j")]
+scale = Vector2(0.5, 0.5)
+frame = 9
 
 [connection signal="timeout" from="TimerPause" to="." method="_on_timer_pause_timeout"]
 [connection signal="body_entered" from="AreaScan" to="." method="_on_area_scan_body_entered"]

@@ -11,7 +11,7 @@ func activate(eg:ModuleElementGrabber, rt:ModuleRiverTracker) -> void:
 	river_tracker = rt
 	eg.available_for_processing.connect(process_element)
 
-func process_element(ed:ElementData):
+func process_element(_ed:ElementData):
 	timer.wait_time = Global.config.conversion_duration_bounds.rand_float()
 	timer.start()
 	
@@ -21,8 +21,6 @@ func process_element(ed:ElementData):
 	if Global.config.area_determines_drop_type:
 		new_data = river_tracker.get_current_area().type
 	on_process_complete(new_data)
-	
-	# @TODO: display some animation while busy
 
 func on_process_complete(ed:ElementData):
 	available_for_drop.emit(ed)

@@ -5,6 +5,7 @@ class_name ModuleVehicleVisuals extends Node2D
 @export var player_sprite : PackedScene
 @export var hide_sprite := false
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
+@export var degrade_by_damage := false
 
 var driver_sprites : Array[Sprite2D] = []
 var body_size : Vector2
@@ -16,6 +17,9 @@ func activate(p:ModulePhysics) -> void:
 	p.size_changed.connect(on_size_changed)
 	entity.driver_added.connect(on_driver_added)
 	entity.driver_removed.connect(on_driver_removed)
+	
+	if degrade_by_damage:
+		entity.health.changed.connect(on_health_changed)
 
 func on_size_changed(new_size:Vector2) -> void:
 	body_size = new_size
@@ -43,7 +47,6 @@ func visualize_drivers() -> void:
 		var should_display := i < num
 		var temp_sprite := driver_sprites[i]
 		temp_sprite.set_visible(should_display)
-		print("Displaying sprite", temp_sprite, i, should_display)
 		
 		if not should_display: continue
 		temp_sprite.set_scale(sprite_scale * Vector2.ONE)
@@ -54,3 +57,8 @@ func visualize_drivers() -> void:
 func on_ghost_changed(val:bool) -> void:
 	if not val: anim_player.stop()
 	else: anim_player.play("ghost")
+
+func on_health_changed(health_ratio:float) -> void:
+	if not degrade_by_damage: return
+	var frame : int = 3 - floor(health_ratio * 3.9999)
+	sprite.set_frame(frame)

@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcfo8s47ialsy"]
+
+[ext_resource type="Texture2D" uid="uid://cxofawrqsac37" path="res://players/vehicles/atlas_tex_particles.tres" id="1_0j1ro"]
+
+[sub_resource type="Curve" id="Curve_vsvhj"]
+_data = [Vector2(0.00765306, 0.020548), 0.0, 0.0, 0, 0, Vector2(0.0918367, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.020548), -2.57358, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_udjem"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+modulate = Color(4, 4, 4, 1)
+show_behind_parent = true
+amount = 35
+randomness = 0.8
+texture = ExtResource("1_0j1ro")
+emission_shape = 1
+emission_sphere_radius = 32.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+angular_velocity_min = 20.0
+angular_velocity_max = 70.0
+angle_max = 360.0
+scale_amount_min = 0.04
+scale_amount_max = 0.08
+scale_amount_curve = SubResource("Curve_vsvhj")
+color_ramp = SubResource("Gradient_udjem")

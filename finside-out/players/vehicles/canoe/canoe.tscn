@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c7ey8wx7l6yj0"]
+[gd_scene load_steps=12 format=3 uid="uid://c7ey8wx7l6yj0"]
 
 [ext_resource type="Script" path="res://players/vehicles/canoe/canoe.gd" id="1_6xiqm"]
 [ext_resource type="PackedScene" uid="uid://bak3euftf42lh" path="res://players/vehicles/modules/visuals.tscn" id="2_kw7d4"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://dl4f2ywwpo0jd" path="res://map/elements/types/element_canoe.tres" id="3_uae4b"]
 [ext_resource type="PackedScene" uid="uid://cfe2c5p70fowk" path="res://players/vehicles/paddle/paddle.tscn" id="4_s1lbd"]
 [ext_resource type="Script" path="res://players/vehicles/canoe/canoe_mover.gd" id="5_38k5r"]
+[ext_resource type="PackedScene" uid="uid://dcfo8s47ialsy" path="res://players/vehicles/move_particles.tscn" id="8_pgbls"]
 [ext_resource type="PackedScene" uid="uid://bi5eujdwlmsk5" path="res://players/vehicles/modules/feeler.tscn" id="8_xigrc"]
 [ext_resource type="PackedScene" uid="uid://ufie66t38fss" path="res://players/modules/health.tscn" id="9_2axl6"]
 
@@ -33,6 +34,9 @@ polygon = PackedVector2Array(-64, 4, -64, -4, -4, -32, 4, -32, 64, -4, 64, 4, 4,
 
 [node name="Visuals" parent="." instance=ExtResource("2_kw7d4")]
 hide_sprite = false
+degrade_by_damage = true
+
+[node name="CPUParticles2D" parent="Visuals" instance=ExtResource("8_pgbls")]
 
 [node name="Physics" parent="." instance=ExtResource("3_ce73f")]
 
@@ -40,7 +44,6 @@ hide_sprite = false
 script = ExtResource("5_38k5r")
 
 [node name="PaddleLeft" parent="Mover" instance=ExtResource("4_s1lbd")]
-is_right = null
 
 [node name="PaddleRight" parent="Mover" instance=ExtResource("4_s1lbd")]
 is_right = true

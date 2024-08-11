@@ -12,6 +12,7 @@ var health := 0.0
 var last_attacker : Node2D
 
 signal depleted()
+signal changed(health_ratio:float)
 
 func _ready() -> void:
 	prog_bar_cont.set_rotation(0)
@@ -30,6 +31,9 @@ func refill() -> void:
 	health = 0
 	update_health(base_health)
 
+func scale_base_health(dh:float) -> void:
+	base_health *= dh
+
 func get_health_ratio() -> float:
 	return health / base_health
 
@@ -39,6 +43,7 @@ func _process(_dt:float) -> void:
 
 func update_health(h:float) -> void:
 	health = clamp(health + h, 0.0, base_health)
+	changed.emit(get_health_ratio())
 	
 	prog_bar_cont.set_visible(show_progress_bar)
 	if show_progress_bar:
@@ -50,7 +55,7 @@ func update_health(h:float) -> void:
 		depleted.emit()
 
 func on_size_changed(new_size:Vector2) -> void:
-	var sc := new_size / Global.config.sprite_base_size
+	var sc : Vector2 = min(new_size.x, new_size.y) / Global.config.sprite_base_size * Vector2.ONE
 	set_scale(sc)
 	prog_bar_cont.set_scale(sc)
 

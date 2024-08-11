@@ -1,9 +1,10 @@
-class_name ModuleElementGrabber extends Node
+class_name ModuleElementGrabber extends Node2D
 
 signal available_for_processing(ed:ElementData)
 signal exclusion_ended(node:Element)
 
 @onready var entity : Player = get_parent()
+@onready var audio_player := $AudioStreamPlayer2D
 
 var excluded_bodies : Array[Element] = []
 
@@ -34,6 +35,9 @@ func is_excluded(b:Element) -> bool:
 func on_body_entered(body:Node2D) -> void:
 	if not (body is Element): return
 	if is_excluded(body): return
+	
+	audio_player.pitch_scale = randf_range(0.9, 1.1)
+	audio_player.play()
 	
 	body.kill()
 	if body.needs_processing():
