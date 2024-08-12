@@ -1,14 +1,6 @@
 
 
 
-## Rowing Game
-
-GRAPHICS:
-* PLAYERS: Degrading canoe stages
-* TUTORIAL: Fill in the details with the correct images
-* TEST: Changed the index-checking code; probably still works, but still want certainty
-* TEST: Dying in single-player
-
 
 ## Future To-Do
 

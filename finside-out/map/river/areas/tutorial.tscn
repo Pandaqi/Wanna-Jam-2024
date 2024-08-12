@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://1jc3ecgpgs86"]
+[gd_scene load_steps=5 format=3 uid="uid://1jc3ecgpgs86"]
 
 [ext_resource type="Script" path="res://map/river/areas/tutorial.gd" id="1_ck0fr"]
 [ext_resource type="PackedScene" uid="uid://v3duygxcvqa4" path="res://game_loop/main_river/misc.tscn" id="1_spk1k"]
-[ext_resource type="Texture2D" uid="uid://3320cnwq33g7" path="res://map/obstacles/water_current/arrow.webp" id="2_v31pi"]
 [ext_resource type="Theme" uid="uid://c2a7nkhpt7afl" path="res://ui/default_theme.tres" id="3_jc7u7"]
 [ext_resource type="Texture2D" uid="uid://jx7h34woikrf" path="res://map/elements/elements.webp" id="4_k4ay2"]
 
@@ -14,10 +13,15 @@ script = ExtResource("1_ck0fr")
 position = Vector2(0, -250)
 frame = 3
 
-[node name="Arrow" type="Sprite2D" parent="."]
-position = Vector2(155, -427)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_v31pi")
+[node name="Arrow1" parent="." instance=ExtResource("1_spk1k")]
+position = Vector2(140, -420)
+scale = Vector2(0.275, 0.275)
+frame = 0
+
+[node name="Arrow2" parent="." instance=ExtResource("1_spk1k")]
+position = Vector2(-132, -420)
+scale = Vector2(0.275, 0.275)
+frame = 0
 
 [node name="Label" type="Label" parent="."]
 offset_left = -226.0

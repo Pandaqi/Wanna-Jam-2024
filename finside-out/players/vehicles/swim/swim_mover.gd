@@ -10,8 +10,9 @@ var is_moving := false
 @onready var audio_player := $AudioStreamPlayer2D
 @onready var arrow : Sprite2D = $Arrow
 
-func activate(p:ModulePhysics):
+func activate(p:ModulePhysics) -> void:
 	physics = p
+	arrow.top_level = true
 
 func _physics_process(dt:float) -> void:
 	update_arrow(dt)

@@ -35,5 +35,5 @@ Vehicles=""
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-environment/defaults/default_clear_color=Color(0.444135, 0.96941, 0.441233, 1)
+environment/defaults/default_clear_color=Color(0.5481, 0.87, 0.757335, 1)
 anti_aliasing/quality/screen_space_aa=1

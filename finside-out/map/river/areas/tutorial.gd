@@ -1,6 +1,7 @@
 extends Node2D
 
-@onready var arrow : Sprite2D = $Arrow
+@onready var arrow1 : Sprite2D = $Arrow1
+@onready var arrow2 : Sprite2D = $Arrow2
 @onready var element : Sprite2D = $Element
 @onready var label : Label = $Label
 
@@ -10,6 +11,7 @@ func _ready():
 	set_scale(new_scale)
 
 func set_data(ed:ElementData, flip_arrow:bool) -> void:
-	arrow.flip_h = flip_arrow
+	arrow1.flip_h = flip_arrow
+	arrow2.flip_h = flip_arrow
 	element.set_frame(ed.frame)
 	label.set_text(ed.desc)

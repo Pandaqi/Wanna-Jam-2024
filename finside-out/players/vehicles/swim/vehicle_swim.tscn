@@ -45,8 +45,9 @@ accepted_types = Array[ExtResource("5_tmvdr")]([ExtResource("6_aa3qi")])
 script = ExtResource("5_y5e76")
 
 [node name="Arrow" parent="Mover" instance=ExtResource("9_pruxk")]
-position = Vector2(195, 0)
-scale = Vector2(0.25, 0.25)
+top_level = true
+position = Vector2(295, 0)
+scale = Vector2(0.5, 0.5)
 frame = 0
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Mover"]

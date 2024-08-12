@@ -18,3 +18,4 @@ make_ghost = false
 piranha_change = 1.0
 explode = false
 piranha_interested = false
+health_recharge = false

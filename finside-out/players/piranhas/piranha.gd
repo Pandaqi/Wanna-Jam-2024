@@ -12,6 +12,7 @@ var paused := false
 var target_element : Element
 var target_vehicle : Vehicle
 
+@onready var sprite := $Sprite2D
 @onready var area_scan : Area2D = $AreaScan
 @onready var col_shape_scan : CollisionShape2D = $AreaScan/CollisionShape2D
 @onready var area_kill : Area2D = $AreaKill
@@ -66,6 +67,7 @@ func move(dt:float) -> void:
 		target_pos = target_vehicle.global_position
 	
 	var vec := (target_pos - global_position).normalized()
+	sprite.flip_h = (vec.x < 0)
 	set_position( get_position() + vec * speed )
 
 func check_players_nearby() -> void:

@@ -3,7 +3,7 @@ class_name Config extends Resource
 @export_group("Debug")
 @export var debug_show_labels := false
 @export var debug_skip_pregame := false
-@export var debug_quick_gameover := true
+@export var debug_quick_gameover := false
 
 @export_group("General Map")
 @export var canoe_size := Vector2(128.0, 64.0)

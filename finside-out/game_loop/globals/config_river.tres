@@ -4,6 +4,9 @@
 
 [resource]
 script = ExtResource("1_84xtn")
+debug_show_labels = false
+debug_skip_pregame = false
+debug_quick_gameover = false
 canoe_size = Vector2(128, 64)
 canoe_body_bevel = 2.0
 canoe_mass = 100.0
