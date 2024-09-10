@@ -330,9 +330,44 @@ Similarly, I _randomized_ the duration of the conversion (pick up seed -> ... ra
 
 This randomness served no purpose, and turned something that should be fun strategy into an annoyance, so all element conversions simply became a fixed time.
 
-
 @TODO: IMAGE/VIDEO of how it plays now?
 
 I would've loved to try all the other ideas and twists and mechanics, but time is running out now. It's time to start polishing both ideas, otherwise I risk missing huge chunks of sprites/sound effects/necessary tutorial instructions by the time I have to submit.
 
 ## Conclusion
+
+As always, tiny ideas became way too big. Not necessarily because of scope creep, but simply because by making the game you realize what the game truly needs. By actually creating it and trying it out, you suddenly see that X is a problem, and you need to change the code to do Y. Repeat that twenty times, and all these little games end up becoming far more complicated than intended.
+
+Nevertheless, I think the end results were solid. Every jam game is another training for the entire muscle of game development. Giving me a few more coding tricks up my sleeve, more experience polishing and creating sound effects/animations, more intuition for what game ideas might or might not work. In that sense, doing _anything_---even if the final game ends up being crappy or buggy---is better than doing nothing.
+
+Also, as always, I'm disappointed about the ideas I _wasn't_ able to make or choose. I truly think that Kingside out, basically a super-combination of the two separate games I ended up making, would've been really good. But it was just too large and challenging to make for a jam, so I couldn't even attempt it. (Which was a good decision, by the way, even if there's a tinge of regret :p)
+
+We'll see how the games do in the jam. This is also the first time I submitted two games, and it was a bit hectic towards the end to get them both working and presentable, so we'll see if _that_ plays any role.
+
+My personal challenge certainly succeeded. I've created so many custom resources (and swappable/loosely coupled modules) with these past few games that I now know the Godot Resource system by heart :p It just gives you more options, I think. To know more parts of the game engine you're using and to deeply study them for a week or two. I can now more easily see the overall algorithms and systems I'd need to do _other game ideas_, because I've tested them in miniature for these games.
+
+The biggest lesson, though, remains that my want to create _local multiplayer_ games just does not fit with _game jams_. Those games, by default, need more testing, more support for different player counts, etcetera etcetera. It's like the complexity jump from 2D to 3D; but now from 1 player to 1--4 players. And there just isn't time for that in a game jam.
+
+A related lesson is about how I always come up with game ideas where _everything is connected to everything_. The core idea is simple---easy to learn and play for the Player---but it's _not_ simple to implement for me. Because it depends on 6 systems communicating, and I can't test if it's "fun" or "works" before _all systems are operational_. As such, in future game jams, I should ensure that my game only has 1 or 2 interconnected mechanics. And _if_ there are more, they can be easily tested or played _on their own_.
+
+For example, my Inside Sprout game relies on many things before I could try it myself for the first time.
+
+* There must be some semblance of "areas" on the map. (So you can see where you stand and the game also knows this.)
+* There must be something to spawn seeds, and then a system to pick up -> drop them for you
+* There must be a player character who can walk around and interact with this.
+* There must be at least one flower to sprout, and one enemy to attack it.
+* There must be the actual objective (such as the Treeheart), otherwise enemies have nowhere to go and there's no use to what you're doing.
+
+That's a lot of systems. I basically hammered them out for two days straight, and only _then_ turned on the game to actually test it. Could I have done this earlier? Well, maybe if I took a lot of shortcuts. Areas spawn completely randomly and are just circles. Flowers grow automatically. You can just click to move the player somewhere. But these simplifications _also take time to code_ and would be ripped out completely for the actual code. And most of them do not simulate the _actual game idea_ well at all: a big challenge in the game is the fact that movement + conversion takes time. If I make things instant or automatic, I'm testing an entirely different game than I actually intend to make.
+
+Instead, my ideas for game jams (at least) should be more like: "You do X and your obstacle is Y. I can code and test these independently, and it should already be fun. Any other mechanics are added on top and are also independent." (And _no local multiplayer_ :p)
+
+Anyway, those were my rambling thoughts as I created two entire games in a single week for the same jam. Did a lot of good, did a lot of bad. I'm a bit tired of writing the same code or doing the same "polishing" steps over and over, though, so I'll stop doing the game jams in a week or so. At some point, you want to create deeper games again, and work on mechanics and gameplay and creative ideas for 99% of the time ... instead of slotting in the same sound effects for the same things again. 
+
+Also goes to show, though, how many of my ideas are _similar_. I thought this would've helped save time. I could copy-paste code and ideas from other jam games! In reality, however, it just made me demotivated and learn less, because, well, I was doing the same things over and over!
+
+I'll be writing a few articles about my "summer of game jams" and aaaaall the lessons I took away from it. This devlog ends here.
+
+Keep playing, keep making games,
+
+Pandaqi
